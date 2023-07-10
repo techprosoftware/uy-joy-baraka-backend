@@ -1,0 +1,812 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "UY-JOY-BARAKA",
+    "version": "1.0.0-oas3"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:4000"
+    }
+  ],
+  "tags": [
+    {
+      "name": "/users"
+    },
+    {
+      "name": "/announcements"
+    },
+    {
+      "name": "/home"
+    }
+  ],
+  "paths": {
+    "/users/check-phone": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/checkphone",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998994580990"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/signup": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/signup",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "name": "Test",
+                  "phone": "998905221128",
+                  "password": "parol123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/login": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998905221128",
+                  "password": "parol124"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/validate-code": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/validate-code",
+        "parameters": [
+          {
+            "name": "code-validation-id",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "3157ce50-7e66-4d4a-bdd0-15d08e33a05d"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "code": "84718"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/edit-full-name": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/edit-full-name",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "firstName": "Isms",
+                  "lastName": "Familiya"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "noauthAuth": []
+          }
+        ]
+      }
+    },
+    "/users/avatar": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/avatar",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/users_avatar_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "noauthAuth": []
+          }
+        ]
+      }
+    },
+    "/users/edit-phone": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/edit-phone",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998905210403"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        },
+        "security": [
+          {
+            "noauthAuth": []
+          }
+        ]
+      }
+    },
+    "/users/profile": {
+      "get": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/profile",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/logout": {
+      "get": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/users/logout",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiY2Y1NTkwZTktNTVjMS00OTM0LWE1NDUtMzU0YWVhZDlmZmZhIiwiaWF0IjoxNjg2ODE2MTgxfQ.r9jXaP0HJ6NmWc507LhFU9a6tkXBcHCerapCb9Z8uDk"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/users/send-code": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "http://localhost:4000/send-code",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998905221115"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/update": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/users/announcement-create",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "$ref": "#/components/schemas/announcements_update_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/active": {
+      "get": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/active",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/inactive": {
+      "get": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/inactive",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/activation": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/activation",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "announcement_id": "7672ede1-2e48-42f1-9efc-af12507bc41e"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/delete": {
+      "delete": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/delete",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/unlike": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "announcement_id": "8464c74d-2c75-4dfe-b9fd-4cdbbc0ad192"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/like": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "announcement_id": "8464c74d-2c75-4dfe-b9fd-4cdbbc0ad192"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/liked": {
+      "get": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/announcements/liked/delete": {
+      "delete": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "http://localhost:4000/announcements/liked/delete",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": false,
+            "style": "simple",
+            "explode": false,
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/home/posts/olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-3-0": {
+      "get": {
+        "tags": [
+          "/home"
+        ],
+        "summary": "http://localhost:4000/home?c_page=3",
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    },
+    "/search": {
+      "get": {
+        "tags": [
+          "/home"
+        ],
+        "summary": "http://localhost:4000/search?city=Toshkent&type=rent&price_type=sum",
+        "parameters": [
+          {
+            "name": "city",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "Toshkent"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "rent"
+          },
+          {
+            "name": "price_type",
+            "in": "query",
+            "required": false,
+            "style": "form",
+            "explode": true,
+            "schema": {
+              "type": "string"
+            },
+            "example": "sum"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "announcements_update_body": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string",
+            "example": "Update Toshkent"
+          },
+          "district": {
+            "type": "string",
+            "example": "update Olmazor"
+          },
+          "address": {
+            "type": "string",
+            "example": "Alisher Navoiy ko'chasi update"
+          },
+          "type": {
+            "type": "string",
+            "example": "sale"
+          },
+          "title": {
+            "type": "string",
+            "example": "Yangilash test"
+          },
+          "description": {
+            "type": "string",
+            "example": "yangi test test test"
+          },
+          "images": {
+            "type": "string",
+            "format": "binary"
+          },
+          "price": {
+            "type": "integer",
+            "example": 100000000000000
+          },
+          "price_type": {
+            "type": "string",
+            "example": "dollar"
+          },
+          "announcement_id": {
+            "type": "string",
+            "example": "4dee2bed-6ecc-454f-8399-d1de85ebf920"
+          }
+        }
+      },
+      "users_avatar_body": {
+        "type": "object",
+        "properties": {
+          "avatar": {
+            "type": "string",
+            "format": "binary"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "noauthAuth": {
+        "type": "http",
+        "scheme": "noauth"
+      }
+    }
+  }
+}

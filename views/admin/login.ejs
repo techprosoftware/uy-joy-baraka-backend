@@ -1,0 +1,36 @@
+<% var title, error %>
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/admin-login.css">
+    <title><%= title %></title>
+</head>
+<body class="text-center">
+
+<main class="form-signin">
+    <form method="post" action="/admin/login">
+        <h1 class="h3 mb-3 fw-normal">Admin</h1>
+        <% if (error) { %>
+            <div class="alert alert-danger text-center mb-2"><%= error.substring(6) %></div>
+        <% } %>
+        <div class="form-floating">
+            <input type="text" class="form-control" id="floatingInput" placeholder="Login" name="phone" value="998905210501">
+            <label for="floatingInput">Login</label>
+        </div>
+        <div class="form-floating">
+            <input type="password" class="form-control" id="floatingPassword" placeholder="Password" name="password" value="password123">
+            <label for="floatingPassword">Password</label>
+        </div>
+        <button class="w-100 btn btn-lg btn-primary" type="submit">Login</button>
+    </form>
+</main>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-gtEjrD/SeCtmISkJkNUaaKMoLD0//ElJ19smozuHV6z3Iehds+3Ulb9Bn9Plx0x4"
+        crossorigin="anonymous"></script>
+<script src="/scripts/bundle.js"></script>
+</body>
+</html>

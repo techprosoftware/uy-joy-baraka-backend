@@ -1,0 +1,140 @@
+<% var announcement, totalCount, title, message, p_page, c_page %>
+<%- include('components/header') %>
+
+<%- include('components/navbar') %>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <%- include('components/sidebar') %>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <% if(message) { %>
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert">
+                        <strong><%= message %></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+                <h4 class="my-4"> <%= title %></h4>
+<!--                <ol class="breadcrumb mb-4">-->
+<!--                    <li class="breadcrumb-item active"><%= title %></li>-->
+<!--                </ol>-->
+                <div class="row">
+                    <% if(announcement?.length !== 0) { %>
+                        <% for(let item of announcement) { %>
+                            <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
+                                <!-- Card-->
+                                <div class="card shadow-sm border-0 rounded mb-3">
+                                    <div class="card-body p-0"><img src="<%= item.thumb[0] %>" alt="" class="w-100 card-img-top">
+                                        <div class="p-4">
+                                            <h5 class="mb-0"><%= item.title %></h5>
+                                            <p class="small text-muted"><%= item.city %> <%= item.district %></p>
+                                            <% var dateObj = new Date(item.createdAt); %>
+                                            <p class="small text-muted"><%= dateObj.getDate() %>-<%= dateObj.getMonth() + 1 %>-<%= dateObj.getFullYear() %>  </p>
+                                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                                <a class="small stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#<%=item.slug%>">Barchasini ko'rish</a>
+                                                <div class="small"><i class="fas fa-angle-right"></i></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        <% } %>
+                        <% } else { %>
+                            <div class="align-items-center justify-content-center">
+                                <h4 class="text-center">E'lonlar mavjud emas</h4>
+                            </div>
+                        <% } %>
+                </div>
+
+
+
+                <!--Pagination-->
+                <div class="clearfix my-3">
+                    <div class="hint-text">Showing <b>8</b> out of <b><%= totalCount %></b> entries</div>
+                    <ul class="pagination justify-content-center">
+
+                        <% for (let i = 0; i < Math.ceil(totalCount / 8); i++) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/pending?c_page=<%= i + 1 %>&p_page=8" data-category-page="<%= i + 1%>"><%= i + 1 %></a>
+                            </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+
+                <% if(announcement?.length !== 0) { %>
+                    <% for(let item of announcement) { %>
+                        <!-- Modal -->
+                        <div class="modal fade" id="<%= item.slug %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-scrollable modal-lg">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="exampleModalLabel">To'liq E'lon</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <div class="container-fluid">
+                                            <div class="row">
+                                                <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                                                    <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                                                        <div class="carousel-indicators">
+                                                            <% for(let num in item.thumb) { %>
+                                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=num%>" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                            <% } %>
+                                                        </div>
+                                                        <div class="carousel-inner">
+                                                            <% for(let img of item.thumb) { %>
+                                                                <div class="carousel-item active">
+                                                                    <img src="<%= img %>" class="d-block w-100" alt="...">
+                                                                </div>
+                                                            <% } %>
+                                                        </div>
+                                                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                                                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Previous</span>
+                                                        </button>
+                                                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                                                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                                                            <span class="visually-hidden">Next</span>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
+                                                    <h4 class="mb-2">Sarlavha: <%= item.title %></h4>
+                                                    <p class="small text-muted">Shaxar: <%= item.city %> <%= item.district %></p>
+                                                    <p class="small text-muted">Manzil: <%= item.address %></p>
+                                                    <p class="small text-muted">Turi: <%= item.type %></p>
+                                                    <p class="small text-muted">Ma'lumot: <%= item.description %></p>
+                                                    <h5>Narx: <%= item.price %> so'm</h5>
+                                                    <% var dateObj = new Date(item.createdAt); %>
+                                                    <p class="small text-muted"><%= dateObj.getDate() %>-<%= dateObj.getMonth() + 1 %>-<%= dateObj.getFullYear() %></p>
+                                                    <form class="mb-3" action="/message/<%=item.announcement_id%>">
+                                                            <label for="exampleFormControlTextarea1" class="form-label">Xabar yuborish</label>
+                                                            <textarea class="form-control" id="exampleFormControlTextarea1" rows="2" name="message"></textarea>
+                                                            <button class="btn btn-primary mt-1">Yuborish</button>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+                                        <a href="/admin/pending/delete/<%=item.announcement_id%>" type="button" class="btn btn-danger">Bekor qilish</a>
+                                        <a href="/admin/pending/confirm/<%=item.announcement_id%>" type="button" class="btn btn-success">Tasdiqlash</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    <% } %>
+                <% } %>
+
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<%- include('components/footer') %>

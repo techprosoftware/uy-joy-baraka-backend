@@ -1,0 +1,84 @@
+<% var users, totalCount, title, message, c_page %>
+<%- include('components/header') %>
+
+<%- include('components/navbar') %>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <%- include('components/sidebar') %>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <% if(message) { %>
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert">
+                        <strong><%= message %></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
+                <h4 class="my-4"> <%= title %></h4>
+                <!--                <ol class="breadcrumb mb-4">-->
+                <!--                    <li class="breadcrumb-item active"><%= title %></li>-->
+                <!--                </ol>-->
+                <div class="container">
+                    <table class="table table-striped table-hover">
+                        <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Phone</th>
+                            <th>Date Created</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Action</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <% if(users) { %>
+                            <% users.forEach((user, index) =>  { %>
+                                <tr>
+                                    <td><%=(c_page * 10) + index + 1 - 10%></td>
+                                    <td>
+                                        <img src="<%=user.avatar%>" class="avatar rounded-circle" alt="" width="30" height="auto">
+                                        <a href="/admin/users/<%=user.user_id%>" style="text-decoration: none"> <%= user.full_name %></a>
+                                    </td>
+                                    <td>+<%= user.phone %></td>
+                                    <% var dateObj = new Date(user.createdAt); %>
+                                    <td> <%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %></td>
+                                    <td><%= user.role %></td>
+                                    <td><span class="status text-success">&bull;</span> Active</td>
+                                    <td>
+                                        <% if(user.role === "admin") { %>
+                                            <a href="#" class="delete" style="color: #b6aeae;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
+                                        <% } else { %>
+                                            <a href="#" class="delete" style="color: red;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
+                                        <% } %>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        <% } %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!--Pagination-->
+                <div class="clearfix my-3">
+                    <div class="hint-text">Showing <b>10</b> out of <b><%= totalCount %></b> entries</div>
+                    <ul class="pagination justify-content-center">
+
+                        <% for (let i = 0; i < Math.ceil(totalCount / 10); i++) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/users?c_page=<%= i + 1 %>&p_page=10" data-category-page="<%= i + 1%>"><%= i + 1 %></a>
+                            </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+
+
+            </div>
+        </main>
+    </div>
+</div>
+
+<%- include('components/footer') %>
