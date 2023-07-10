@@ -10,6 +10,7 @@
 git clone  https://github.com/techprosoftware/uy-joy-baraka-backend.git
 ```
 - Install dependencies
+- Create an .env file according to example.env
 ```
 cd uy-joy-baraka-backend
 npm install
