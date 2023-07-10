@@ -4,6 +4,7 @@ const db = require("../../modules/postgres");
 const socketMiddleware = require("../../middlewares/socket-middleware");
 const socketMessageValidation = require("../../validations/socket-message-validation");
 const chatIdValidation = require("../../validations/chat-id-validation");
+const messageIdValidation = require("../../validations/message-id-validation");
 
 async function socketIO(server) {
   const corsOptions = {
@@ -82,15 +83,33 @@ async function socketIO(server) {
       });
 
       socket.on("delete", async (data) => {
-        const { chat_id } =  await chatIdValidation.validateAsync(data);
+        try {
+          const { chat_id } =  await chatIdValidation.validateAsync(data);
 
-        await messages.destroy({ where: { chat_id } });
+          await messages.destroy({ where: { chat_id } });
 
-        await chats.destroy({ where: { chat_id } });
+          await chats.destroy({ where: { chat_id } });
 
-        io.to(socket.id).emit("delete", "Chat o'chirildi");
+          io.to(socket.id).emit("deleteResponse", "Chat o'chirildi");
+        } catch (e) {
+          io.to(socket.id).emit("deleteResponse", e + "");
+        }
       });
 
+      socket.on("read", async (data) => {
+        try {
+          const { message_id } = await messageIdValidation.validateAsync(data);
+
+          await messages.update(
+            { read: true },
+            { where: { message_id, sender_id: socket.user.user_id } },
+          );
+
+          io.to(socket.id).emit("readResponse", "Xabarlar o'qildi");
+        } catch (e) {
+          io.to(socket.id).emit("readResponse", e + "");
+        }
+      });
       socket.on('disconnect', async() => {
         await users.update(
             { status: "offline" },

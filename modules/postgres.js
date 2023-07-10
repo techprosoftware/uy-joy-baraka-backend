@@ -2,7 +2,6 @@ const { Sequelize } = require("sequelize");
 const { DB_URL, DEV_DB_URL, NODE_ENV } = require("../config");
 
 const Model = require("../models/models");
-const {generateHash} = require("./bcrypt");
 
 const sequelize = new Sequelize(
   NODE_ENV === "production" ? DB_URL : DEV_DB_URL,
@@ -146,37 +145,6 @@ module.exports = async function () {
       name: "chat_id",
       allowNull: true,
     });
-
-    // let admin = await db.users.findOne({ where: { role: "admin" }, raw: true });
-    // await db.users.destroy({ where: { role: "admin" } })
-    // if (!admin) {
-    //   const readline = require("readline");
-    //
-    //   const rl = readline.createInterface({
-    //     input: process.stdin,
-    //     output: process.stdout,
-    //   });
-    //
-    //   let admin = {
-    //     full_name: "Admin",
-    //     role: "admin",
-    //     confirm: true,
-    //   };
-    //
-    //   rl.question("Telefon raqamingizni kiriting: ", (phone) => {
-    //     admin.phone = phone;
-    //
-    //     rl.question("Parolingizni kiriting: ", async (password) => {
-    //       admin.password = await generateHash(password);
-    //
-    //       console.log(admin);
-    //       await db.users.create(admin);
-    //       console.log("Admin muvaffaqiyatli yaratildi");
-    //
-    //       rl.close();
-    //     });
-    //   });
-    // }
 
     await sequelize.sync({ force: false });
     // await sequelize.sync({ alter: true });

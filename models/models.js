@@ -36,7 +36,7 @@ module.exports = class Models {
             },
             password: {
                 type: Sequelize.DataTypes.STRING,
-                allowNull: true,
+                allowNull: false,
             },
             confirm: {
                 type: Sequelize.DataTypes.BOOLEAN,
@@ -256,6 +256,10 @@ module.exports = class Models {
             content: {
                 type: Sequelize.DataTypes.TEXT,
                 allowNull: false,
+            },
+            read: {
+                type: Sequelize.DataTypes.BOOLEAN,
+                defaultValue: false,
             },
             timestamp: {
                 type: Sequelize.DataTypes.DATE,

@@ -6,10 +6,10 @@ const express = require("express");
 const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express");
 
-const { NODE_ENV, URL } = require("./config");
 const db = require("./modules/postgres");
-const swaggerDoc = require("./docs/swagger.json");
+const { NODE_ENV, URL } = require("./config");
 const limiter = require("./modules/rate-limit");
+const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
 
 const app = express();
@@ -41,6 +41,14 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 // database middleware
 app.use(async (req, res, next) => {
   req.db = await db();
+  // let hash = await generateHash("password123")
+  // await req.db.users.create({
+  //   full_name: "Admin",
+  //   phone: "998905210501",
+  //   role: "admin",
+  //   password: hash,
+  //   confirm: true,
+  // });
   next();
 });
 

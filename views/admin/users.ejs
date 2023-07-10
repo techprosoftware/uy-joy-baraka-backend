@@ -25,11 +25,11 @@
                         <thead>
                         <tr>
                             <th>#</th>
-                            <th>Name</th>
-                            <th>Phone</th>
-                            <th>Date Created</th>
+                            <th>FISh</th>
+                            <th>Telefon</th>
+                            <th>Sana</th>
                             <th>Role</th>
-                            <th>Status</th>
+                            <th>Holati</th>
                             <th>Action</th>
                         </tr>
                         </thead>
@@ -46,12 +46,17 @@
                                     <% var dateObj = new Date(user.createdAt); %>
                                     <td> <%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %></td>
                                     <td><%= user.role %></td>
-                                    <td><% user.confirm === true ? `<span class="status text-success">&bull;</span> Active` : `<span class="status text-bg-danger">&bull;</span> Inactive` %></td>
+                                    <td><% if (user.confirm) { %>
+                                            <span class="status text-success">&bull;</span> Faol
+                                        <% } else { %>
+                                            <span class="status text-danger">&bull;</span> Nofaol
+                                        <% } %>
+                                        </td>
                                     <td>
                                         <% if(user.role === "admin") { %>
                                             <a href="#" class="delete" style="color: #b6aeae;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
                                         <% } else { %>
-                                            <a href="#" class="delete" style="color: red;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
+                                            <a href="/admin/users/delete/<%=user.user_id%>" class="delete" style="color: red;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
                                         <% } %>
                                     </td>
                                 </tr>

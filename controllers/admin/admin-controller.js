@@ -1,7 +1,7 @@
 const adminLogin = require("../../validations/admin-login");
 const { compareHash } = require("../../modules/bcrypt");
 const { generateToken } = require("../../modules/jwt");
-
+const { generateHash } = require("../../modules/bcrypt");
 module.exports = class Admin {
   static loginGET(req, res) {
     res.render("admin/login", {
@@ -13,11 +13,12 @@ module.exports = class Admin {
     try {
       const { phone, password } = await adminLogin.validateAsync(req.body);
       const { users, sessions } = req.db;
-
+      console.log(phone, password)
       let candidate = await users.findOne({
         where: { phone, role: "admin" },
         raw: true,
       });
+
       if (!candidate) throw new Error("Phone or Password is Incorrect");
 
       let isPasswordCorrect = await compareHash(password, candidate.password);
@@ -43,30 +44,6 @@ module.exports = class Admin {
       });
 
       res.cookie("token", token).redirect("/admin");
-
-      // let hash = await generateHash(password)
-      //
-      // await users.create({
-      //     full_name: "Super Admin",
-      //     phone,
-      //     password: hash,
-      //     role: "admin",
-      // })
-
-      // let candidate = await users.findOne({ where: { phone }, raw: true });
-      // if (!candidate) throw new Error("Phone or Password is Incorrect");
-      //
-      // let isPasswordCorrect = await compareHash(password, candidate.password);
-      // if (!isPasswordCorrect) throw new Error("Phone or Password is Incorrect");
-      //
-      // const token = generateToken({
-      //     user_agent: req.headers['user-agent'],
-      //     phone,
-      //     ...candidate,
-      //     password: undefined,
-      // });
-      //
-      // res.cookie('token', token).redirect("/admin");
     } catch (e) {
       res.render("admin/login", {
         error: e + "",
@@ -393,4 +370,55 @@ module.exports = class Admin {
       });
     }
   }
+
+  static async DeleteUser(req, res) {
+      try {
+      const { user_id } = req.params;
+
+      await req.db.users.destroy({ where: { user_id } });
+
+      await req.db.announcement.destroy({ where: { user_id } });
+
+      await req.db.attempts.destroy({ where: { user_id } });
+
+      await req.db.bans.destroy({ where: { user_id } });
+
+      await req.db.sessions.destroy({ where: { user_id } });
+
+      await req.db.likes.destroy({ where: { user_id } });
+
+      await req.db.chats.destroy({ where: { user_id } });
+
+      let { p_page, c_page } = req.query;
+      if (!(p_page || c_page)) {
+        p_page = 10;
+        c_page = 1;
+      }
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
+        throw new Error("invalid c_page and p_page options");
+      }
+      const totalCount = await req.db.users.count();
+
+      let users = await req.db.users.findAll({
+        order: [["createdAt", "ASC"]],
+        raw: true,
+        limit: p_page,
+        offset: p_page * (c_page - 1),
+      });
+
+      res.render("admin/users", {
+        ok: true,
+        title: "Foydalanuvchilar",
+        users,
+        totalCount,
+        c_page,
+        message: "Foydalanuvchi o'chirildi",
+      });
+    } catch (e) {
+      console.log(e + "");
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    } }
 };
