@@ -115,27 +115,10 @@ module.exports = class Home {
             item.viewCount += 1;
             await item.save();
 
-            // const relatedItems = await announcement.findAll({
-            //     where: { city: item.city, confirm: true, status: true },
-            //     limit: 10,
-            //     raw: true,
-            // });
-            //
-            // if (relatedItems.length < 10) {
-            //     const relatedItems2 = await announcement.findAll({
-            //         where: { type: item.type, confirm: true, status: true },
-            //         limit: 10,
-            //         raw: true,
-            //     });
-            //
-            //     relatedItems.push(...relatedItems2);
-            // }
-
             res.status(200).json({
                 ok: true,
-                announcement: item.dataValues,
-                user: user,
-                // posts: relatedItems,
+                post: item.dataValues,
+                user,
             });
         } catch (e) {
             res.status(400).json({

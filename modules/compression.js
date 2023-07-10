@@ -1,7 +1,7 @@
 const compression = require("compression");
 
 module.exports = compression({
-  level: 9,
+  level: 6,
   threshold: 0,
   filter: (req, res) => {
     if (req.headers["x-no-compression"]) {

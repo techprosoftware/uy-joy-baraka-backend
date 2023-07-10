@@ -1,9 +1,6 @@
 const { verifyToken } = require("../modules/jwt");
-const redis = require("redis");
 module.exports = async (socket, next) => {
     try {
-        const redisClient = redis.createClient();
-
         const { users, sessions } = await socket.db;
         const { headers } = socket.handshake;
         const token = headers.authorization;

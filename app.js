@@ -33,10 +33,7 @@ if (NODE_ENV === "production") {
 }
 
 app.use(compression);
-app.use(express.static(path.join(__dirname, "public")), {
-  maxAge: "1d",
-  immutable: true,
-});
+app.use(express.static(path.join(__dirname, "public")));
 
 // swagger setup middleware
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));

@@ -42,8 +42,6 @@ module.exports = class Admin {
         session_id: session.dataValues.session_id,
       });
 
-      console.log("login" + token)
-
       res.cookie("token", token).redirect("/admin");
 
       // let hash = await generateHash(password)

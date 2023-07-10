@@ -46,7 +46,7 @@
                                     <% var dateObj = new Date(user.createdAt); %>
                                     <td> <%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %></td>
                                     <td><%= user.role %></td>
-                                    <td><span class="status text-success">&bull;</span> Active</td>
+                                    <td><% user.confirm === true ? `<span class="status text-success">&bull;</span> Active` : `<span class="status text-bg-danger">&bull;</span> Inactive` %></td>
                                     <td>
                                         <% if(user.role === "admin") { %>
                                             <a href="#" class="delete" style="color: #b6aeae;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
