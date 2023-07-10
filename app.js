@@ -1,17 +1,16 @@
-// var createError = require("http-errors");
 const fs = require("fs");
 const path = require("path");
+const cors = require("cors");
+const logger = require("morgan");
 const express = require("express");
 const cookieParser = require("cookie-parser");
-const logger = require("morgan");
-const compression = require("compression");
 const swaggerUi = require("swagger-ui-express");
-const swaggerDoc = require("./docs/swagger.json");
+
+const { NODE_ENV, URL } = require("./config");
 const db = require("./modules/postgres");
+const swaggerDoc = require("./docs/swagger.json");
 const limiter = require("./modules/rate-limit");
-const { URL, NODE_ENV, PORT} = require("./config");
-// const userMiddleware = require("./middlewares/user-middleware");
-const cors = require("cors");
+const compression = require("./modules/compression");
 
 const app = express();
 
@@ -20,26 +19,24 @@ app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
 
 // middlewares
-if (NODE_ENV === "production") app.use(limiter);
-
-app.use(
-  compression({
-    level: 6,
-    threshold: 0,
-    filter: (req, res) => {
-      if (req.headers["x-no-compression"]) {
-        return false;
-      }
-      return compression.filter(req, res);
-    },
-  })
-);
-app.use(logger("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
-app.use(express.static(path.join(__dirname, "public")));
-app.use(cors());
+
+if (NODE_ENV === "production") {
+  app.use(limiter);
+  app.use(cors({ origin: URL }));
+  app.use(logger("common"));
+} else {
+  app.use(cors({ origin: "*" }));
+  app.use(logger("dev"));
+}
+
+app.use(compression);
+app.use(express.static(path.join(__dirname, "public")), {
+  maxAge: "1d",
+  immutable: true,
+});
 
 // swagger setup middleware
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
@@ -49,8 +46,6 @@ app.use(async (req, res, next) => {
   req.db = await db();
   next();
 });
-
-// app.use(userMiddleware);
 
 // routes
 app.get("/", (req, res) => {

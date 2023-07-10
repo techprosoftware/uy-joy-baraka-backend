@@ -2,12 +2,10 @@ const { Server } = require("socket.io");
 const { NODE_ENV, URL } = require("../../config");
 const db = require("../../modules/postgres");
 const socketMiddleware = require("../../middlewares/socket-middleware");
-const redis = require("redis");
+const socketMessageValidation = require("../../validations/socket-message-validation");
+const chatIdValidation = require("../../validations/chat-id-validation");
 
 async function socketIO(server) {
-  const client = redis.createClient();
-  await client.connect()
-
   const corsOptions = {
     origin: NODE_ENV === "production" ? URL : "*",
     methods: ["GET", "POST", "DELETE"],
@@ -28,43 +26,76 @@ async function socketIO(server) {
   io.on("connection", async (socket) => {
     try {
       console.log("Client connected:", socket.id);
-      const { users, chats, messages, sessions } = socket.db;
+      const { users, chats, messages } = socket.db;
 
-      socket.on("join", async (data) => {
-        await client.hSet("online_users", socket.user.session_id, JSON.stringify({...socket.user, socket_id: socket.id}));
-        console.log(await client.get("online_users"))
+      socket.on("join", async () => {
+        try {
+          await users.update(
+              { status: "online", socket_id: socket.id },
+              { where: { user_id: socket.user.user_id } },
+          );
+
+          io.to(socket.id).emit("joinResponse", {
+            ok: true,
+            message: "online"
+          });
+        } catch (e) {
+          io.to(socket.id).emit("joinResponse", {
+            ok: false,
+            message: e + "",
+          });
+        }
       }); 
 
-      socket.on("newMessage", async (data) => {
-        const { receiver_id, chat_id, message } = data;
+      socket.on("message", async (data) => {
+        try {
+          const { receiver_id, chat_id, message } = await socketMessageValidation.validateAsync(data);
 
-        let messageItem = await messages.create({
-          chat_id,
-          sender_id: socket.user.user_id,
-          content: message,
-        });
+          let messageItem = await messages.create({
+            chat_id,
+            sender_id: socket.user.user_id,
+            content: message,
+          });
 
-        let seans = await sessions.findAll({
-          where: {
-            user_id: receiver_id,
-            online: true,
-          },
-          raw: true,
-        });
+          let user = await users.findOne({
+            where: { status: "online", user_id: receiver_id },
+            raw: true
+          });
 
-        console.log(seans);
+          if (user) {
+            io.to(user.socket_id).emit("receivedMessage", {
+              ok: true,
+              message: messageItem.dataValues
+            });
+          }
 
-        for (let item of seans) {
-          io.to(item.socket_id).emit("receivedMessage", messageItem.dataValues);
+          io.to(socket.id).emit("messageResponse", {
+            ok: true,
+            message: "Xabar yuborildi",
+          });
+        } catch (e) {
+          io.to(socket.id).emit("messageResponse", {
+            ok: false,
+            message: e + "",
+          });
         }
+      });
 
-        console.log(messageItem.dataValues);
+      socket.on("delete", async (data) => {
+        const { chat_id } =  await chatIdValidation.validateAsync(data);
 
-        io.emit("message", data); // Barcha klientlarga xabar yuborish
+        await messages.destroy({ where: { chat_id } });
+
+        await chats.destroy({ where: { chat_id } });
+
+        io.to(socket.id).emit("delete", "Chat o'chirildi");
       });
 
       socket.on('disconnect', async() => {
-        console.log("Client disconnected:", socket.id);
+        await users.update(
+            { status: "offline" },
+            { where: { user_id: socket.user.user_id } }
+        );
       });
     } catch (error) {
         console.log(error);

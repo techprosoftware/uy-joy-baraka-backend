@@ -9,6 +9,7 @@ const codeValidation = require("../../validations/code-validation");
 const loginValidation = require("../../validations/login-validation");
 
 const sendSms = require("../../modules/sms");
+const {NODE_ENV} = require("../../config");
 
 module.exports = class Login {
   static async CheckPhone(req, res) {
@@ -99,8 +100,12 @@ module.exports = class Login {
 
       // Send code
       let code = generateCode();
-      console.log(code);
-      await sendSms(phone, `uyjoybaraka.uz tasdiqlash kodi ${code}`);
+
+      if (NODE_ENV === "production") {
+        await sendSms(phone, `uyjoybaraka.uz tasdiqlash kodi ${code}`);
+      } else {
+        console.log("code:" + code);
+      }
 
       await attempts.destroy({
         where: {
@@ -240,6 +245,7 @@ module.exports = class Login {
       await users.update(
         {
           user_attempts: 0,
+          confirm: true,
         },
         {
           where: {
@@ -278,6 +284,8 @@ module.exports = class Login {
       });
 
       if (!user) throw new Error("Foydalanuvchi ro'yxatdan o'tmagan");
+
+      if (!user.confirm) throw new Error("Tasdiqlanmagan foydalanuvchi, iltimos telefon raqamingizni tasdiqlang")
 
       let ban = await bans.findOne({
         where: {
@@ -350,7 +358,7 @@ module.exports = class Login {
       }
 
       await users.update(
-        { user_attempts: 0 },
+        { user_attempts: 0, confirm: true },
         {
           where: {
             user_id: user.user_id,
@@ -384,7 +392,6 @@ module.exports = class Login {
         ok: true,
         message: "Tizimga muvofaqqiyatli kirdingiz",
         token: token,
-        user,
       });
     } catch (e) {
       res.status(400).json({

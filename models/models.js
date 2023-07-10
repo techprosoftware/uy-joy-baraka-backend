@@ -38,6 +38,19 @@ module.exports = class Models {
                 type: Sequelize.DataTypes.STRING,
                 allowNull: true,
             },
+            confirm: {
+                type: Sequelize.DataTypes.BOOLEAN,
+                defaultValue: false,
+            },
+            socket_id: {
+                type: Sequelize.DataTypes.STRING,
+            },
+            status: {
+                type: Sequelize.DataTypes.STRING(7),
+                isIn: [["online", "offline"]],
+                defaultValue: "offline",
+                allowNull: false,
+            },
         });
     }
 
