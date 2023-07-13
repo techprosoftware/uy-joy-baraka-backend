@@ -17,16 +17,14 @@
                     </div>
                 <% } %>
                 <h4 class="my-4"> <%= title %></h4>
-<!--                <ol class="breadcrumb mb-4">-->
-<!--                    <li class="breadcrumb-item active"><%= title %></li>-->
-<!--                </ol>-->
                 <div class="row">
                     <% if(announcement?.length !== 0) { %>
                         <% for(let item of announcement) { %>
                             <div class="col-lg-3 col-md-6 mb-4 mb-lg-0">
                                 <!-- Card-->
                                 <div class="card shadow-sm border-0 rounded mb-3">
-                                    <div class="card-body p-0"><img src="<%= item.thumb[0] %>" alt="" class="w-100 card-img-top">
+                                    <div class="card-body p-0" >
+                                        <img src="<%= item.thumb[0] %>" alt="" class="w-100 card-img-top">
                                         <div class="p-4">
                                             <h5 class="mb-0"><%= item.title %></h5>
                                             <p class="small text-muted"><%= item.city %> <%= item.district %></p>

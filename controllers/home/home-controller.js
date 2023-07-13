@@ -48,7 +48,7 @@ module.exports = class Home {
 
     static async SearchGET(req, res) {
         try {
-            let { type, city, price_type, c_page } = await searchValidation.validateAsync(req.query);
+            let { type, city, price_type, c_page, search } = await searchValidation.validateAsync(req.query);
 
             const { announcement } = req.db;
 
@@ -69,7 +69,35 @@ module.exports = class Home {
 
             if (price_type) whereCondition.price_type = price_type;
 
-            // Fetching 3 most viewed posts
+            if (search) {
+                whereCondition = {
+                    ...whereCondition,
+                    [Op.or]: [
+                        {
+                            title: {
+                                [Op.like]: `%${search}%`,
+                            },
+                        },
+                        {
+                            city: {
+                                [Op.like]: `%${search}%`,
+                            },
+                        },
+                        {
+                            district: {
+                                [Op.like]: `%${search}%`,
+                            },
+                        },
+                        {
+                            address: {
+                                [Op.like]: `%${search}%`,
+                            },
+                        },
+                    ],
+                };
+            }
+
+            // Fetching 3 most viewed, liked posts
             const combinedPosts = await announcement.findAll({
                 where: whereCondition,
                 order: [['viewCount', 'DESC'], ['likeCount', 'DESC']],

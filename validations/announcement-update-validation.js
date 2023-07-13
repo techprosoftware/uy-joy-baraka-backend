@@ -16,4 +16,7 @@ module.exports = Joi.object({
   price_type: Joi.string()
     .pattern(new RegExp(/^(sum|dollar)$/))
     .error(Error("Invalid price_type sum or dollar")),
+  phone: Joi.string()
+      .pattern(new RegExp("^998[389][01345789][0-9]{7}$"))
+      .error(Error("invalid phone")),
 });

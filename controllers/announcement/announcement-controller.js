@@ -8,19 +8,18 @@ const uuidValidation = require("../../validations/uuid-validation");
 module.exports = class Announcement {
     static async announcementCreate(req, res) {
         try {
-            let { city, district, address, type, title, description, price, price_type } = await announcementValidation.validateAsync(req.body);
+            let { city, district, address, type, title, description, price, price_type, phone } = await announcementValidation.validateAsync(req.body);
 
             const { announcement } = req.db;
 
             let images = ["/images/uploads/default.png"];
             if (req.files.images) {
                 images = req.files.images.map(a => `/images/uploads/${a.filename}`);
-
             }
 
             // Slug yaratish va borligini tekshirish
             async function createUniqueSlug(title) {
-                const slug = slugify(title, { lower: true });
+                const slug = slugify(title, { lower: true, strict: true, remove: /[*+~.()'"!:@,;><`~]/g });
                 const existingModel = await announcement.findOne({ where: { slug } });
 
                 if (!existingModel) {
@@ -45,10 +44,12 @@ module.exports = class Announcement {
                 price,
                 thumb: images,
                 price_type,
+                phone,
             });
 
             res.status(201).json({
                 ok: true,
+                message: "E'lon tasdiqlash uchun yuborildi",
                 announcement: item.dataValues,
             })
         } catch (e) {
@@ -176,7 +177,7 @@ module.exports = class Announcement {
 
     static async updateAnnouncement(req, res) {
         try {
-            const { announcement_id, city, district, address, type, title, description, price, price_type } = await updateAnnouncementValidation.validateAsync(req.body);
+            const { announcement_id, city, district, address, type, title, description, price, price_type, phone } = await updateAnnouncementValidation.validateAsync(req.body);
             const { announcement } = req.db;
 
             let images;
@@ -192,9 +193,8 @@ module.exports = class Announcement {
             if (!item) throw new Error("E'lon topilmadi");
 
             let updatedAnnouncement = await announcement.update(
-                { city, district, address, thumb: images, type, title, description, price, price_type },
+                { city, district, address, thumb: images, type, title, description, price, price_type, phone },
                 { where: { announcement_id, user_id: req.user.user_id }, returning: true },
-
             );
 
             res.status(200).json({

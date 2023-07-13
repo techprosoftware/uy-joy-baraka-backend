@@ -47,7 +47,7 @@ module.exports = class Login {
 
       let hash = await generateHash(password);
 
-      user = await users.create({
+      await users.create({
         full_name: name,
         phone,
         password: hash,
@@ -57,10 +57,6 @@ module.exports = class Login {
       res.status(201).json({
         ok: true,
         message: "Foydalanuvchi ro'yxatdan o'tdi",
-        user: {
-          ...user.dataValues,
-          password: undefined,
-        },
       });
     } catch (e) {
       res.status(400).json({

@@ -110,6 +110,7 @@ async function socketIO(server) {
           io.to(socket.id).emit("readResponse", e + "");
         }
       });
+
       socket.on('disconnect', async() => {
         await users.update(
             { status: "offline" },

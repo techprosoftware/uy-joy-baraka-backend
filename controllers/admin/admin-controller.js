@@ -1,19 +1,19 @@
 const adminLogin = require("../../validations/admin-login");
 const { compareHash } = require("../../modules/bcrypt");
 const { generateToken } = require("../../modules/jwt");
-const { generateHash } = require("../../modules/bcrypt");
+
 module.exports = class Admin {
-  static loginGET(req, res) {
+  static async loginGET(req, res) {
     res.render("admin/login", {
       title: "Admin | Login",
     });
   }
 
-  static async LoginPOST(req, res) {
+  static async loginPOST(req, res) {
     try {
       const { phone, password } = await adminLogin.validateAsync(req.body);
       const { users, sessions } = req.db;
-      console.log(phone, password)
+      console.log(phone, password);
       let candidate = await users.findOne({
         where: { phone, role: "admin" },
         raw: true,
@@ -85,7 +85,7 @@ module.exports = class Admin {
         p_page = 8;
         c_page = 1;
       }
-      if (Number(p_page) === NaN || Number(c_page) === NaN) {
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
       const totalCount = await req.db.announcement.count({
@@ -130,7 +130,7 @@ module.exports = class Admin {
         p_page = 8;
         c_page = 1;
       }
-      if (Number(p_page) === NaN || Number(c_page) === NaN) {
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
       const totalCount = await req.db.announcement.count({
@@ -168,7 +168,7 @@ module.exports = class Admin {
 
         c_page = 1;
       }
-      if (Number(p_page) === NaN || Number(c_page) === NaN) {
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
       const totalCount = await req.db.announcement.count({
@@ -211,7 +211,7 @@ module.exports = class Admin {
         p_page = 8;
         c_page = 1;
       }
-      if (Number(p_page) === NaN || Number(c_page) === NaN) {
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
       const totalCount = await req.db.announcement.count({
@@ -292,7 +292,7 @@ module.exports = class Admin {
       });
 
       await req.db.announcement.update(
-        { rec: item.rec ? false : true },
+        { rec: !item.rec },
         { where: { announcement_id } }
       );
 
@@ -302,7 +302,7 @@ module.exports = class Admin {
         c_page = 1;
       }
 
-      if (Number(p_page) === NaN || Number(c_page) === NaN) {
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
 
@@ -371,8 +371,8 @@ module.exports = class Admin {
     }
   }
 
-  static async DeleteUser(req, res) {
-      try {
+  static async deleteUser(req, res) {
+    try {
       const { user_id } = req.params;
 
       await req.db.users.destroy({ where: { user_id } });
@@ -420,5 +420,97 @@ module.exports = class Admin {
         ok: false,
         message: e + "",
       });
-    } }
+    }
+  }
+
+  static async getAds(req, res) {
+    try {
+      let { c_page } = req.query;
+
+      if (!c_page) {
+        c_page = 1;
+      }
+      if (isNaN(Number(c_page))) {
+        throw new Error("invalid c_page options");
+      }
+      const totalCount = await req.db.ads.count();
+
+      let ads = await req.db.ads.findAll({
+        raw: true,
+        order: [["createdAt", "ASC"]],
+        limit: 4,
+        offset: 4 * (c_page - 1),
+      });
+
+      console.log(ads)
+
+      res.render("admin/ads", {
+        ok: true,
+        title: "Reklama",
+        // ads,
+        // totalCount,
+        // c_page,
+      });
+    } catch (e) {
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    }
+  }
+
+  static async postAds(req, res) {
+    try {
+      const { title, description, link } = req.body;
+
+      let image = "/images/uploads/default.png";
+      if (req?.file) {
+        image = `/images/uploads/${req.file.filename}`;
+      }
+
+      await req.db.ads.create({
+        title,
+        link,
+        description,
+        image,
+      });
+
+      const totalCount = await req.db.ads.count();
+
+      let ads = await req.db.ads.findAll({
+        raw: true,
+        order: [["createdAt", "ASC"]],
+        limit: 4,
+      });
+
+      console.log(ads)
+
+      res.render("admin/ads", {
+        ok: true,
+        title: "Reklama",
+        ads,
+        totalCount,
+        message: "Reklama qo'shildi",
+      });
+    } catch (e) {
+      console.log(e + "");
+      res.render("admin/ads", {
+        ok: false,
+        title: "Reklama",
+        message: e + "",
+      });
+    }
+  }
+
+  static async getChat(req, res) {
+    try {
+      res.render("admin/chat");
+    } catch (e) {
+      console.log(e + "");
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    }
+  }
 };

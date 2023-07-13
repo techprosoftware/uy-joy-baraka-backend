@@ -1,4 +1,4 @@
-<% var users, totalCount, title, message, c_page %>
+<% var users, totalCount, title, message, c_page, ok %>
 <%- include('components/header') %>
 
 <%- include('components/navbar') %>
@@ -10,9 +10,14 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
-                <% if(message) { %>
+                <% if(message && ok) { %>
                     <div class="alert alert-success alert-dismissible fade show my-2" role="alert">
                         <strong><%= message %></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } else if (!ok) { %>
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <strong><%= message?.replace("Error", "Xatolik") %></strong>
                         <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 <% } %>
@@ -40,7 +45,8 @@
                                     <td><%=(c_page * 10) + index + 1 - 10%></td>
                                     <td>
                                         <img src="<%=user.avatar%>" class="avatar rounded-circle" alt="" width="30" height="auto">
-                                        <a href="/admin/users/<%=user.user_id%>" style="text-decoration: none"> <%= user.full_name %></a>
+<!--                                        <a href="/admin/users/<%=user.user_id%>" style="text-decoration: none"> </a>-->
+                                        <%= user.full_name %>
                                     </td>
                                     <td>+<%= user.phone %></td>
                                     <% var dateObj = new Date(user.createdAt); %>

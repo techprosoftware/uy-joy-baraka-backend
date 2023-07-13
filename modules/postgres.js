@@ -2,6 +2,7 @@ const { Sequelize } = require("sequelize");
 const { DB_URL, DEV_DB_URL, NODE_ENV } = require("../config");
 
 const Model = require("../models/models");
+const { generateHash } = require("./bcrypt");
 
 const sequelize = new Sequelize(
   NODE_ENV === "production" ? DB_URL : DEV_DB_URL,
@@ -21,6 +22,7 @@ module.exports = async function () {
     db.logins = await Model.UserLogins(Sequelize, sequelize);
     db.messages = await Model.Messages(Sequelize, sequelize);
     db.chats = await Model.Chats(Sequelize, sequelize);
+    db.ads = await Model.Ads(Sequelize, sequelize);
 
     await db.users.hasOne(db.attempts, {
       foreignKey: {
@@ -145,6 +147,17 @@ module.exports = async function () {
       name: "chat_id",
       allowNull: true,
     });
+
+    // hash = await generateHash("password123");
+    // console.log(hash)
+    // await db.users.create({
+    //   full_name: "Admin",
+    //   password: hash,
+    //   role: "admin",
+    //   confirm: true,
+    // });
+
+
 
     await sequelize.sync({ force: false });
     // await sequelize.sync({ alter: true });

@@ -2,13 +2,24 @@
   "openapi": "3.0.0",
   "info": {
     "title": "UY-JOY-BARAKA",
-    "version": "1.0.0-oas3"
+    "version": "1.0.0"
   },
   "servers": [
     {
-      "url": "http://localhost:4000"
+      "url": "http://test.uyjoybaraka.uz"
+    },
+    {
+      "url": "localhost://4000"
     }
   ],
+  "components": {
+    "securitySchemes": {
+      "noauthAuth": {
+        "type": "http",
+        "scheme": "noauth"
+      }
+    }
+  },
   "tags": [
     {
       "name": "/users"
@@ -18,22 +29,25 @@
     },
     {
       "name": "/home"
+    },
+    {
+      "name": "/chats"
     }
   ],
   "paths": {
-    "/users/check-phone": {
+    "/api/users/check-phone": {
       "post": {
         "tags": [
           "/users"
         ],
-        "summary": "http://localhost:4000/checkphone",
+        "summary": "check-phone",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "example": {
-                  "phone": "998994580990"
+                  "phone": "998994580999"
                 }
               }
             }
@@ -41,29 +55,413 @@
         },
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "25"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"19-aShMk3XlyzKPDYFdm4yh8rEloTk\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:47:29 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "succes",
+                    "value": {
+                      "ok": true,
+                      "exists": true
+                    }
+                  },
+                  "example-1": {
+                    "summary": "false",
+                    "value": {
+                      "ok": true,
+                      "exists": false
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/users/signup": {
+    "/api/users/signup": {
       "post": {
         "tags": [
           "/users"
         ],
-        "summary": "http://localhost:4000/signup",
+        "summary": "signup",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "example": {
-                  "name": "Test",
-                  "phone": "998905221128",
-                  "password": "parol123"
+                  "name": "Admin",
+                  "phone": "998905210501",
+                  "password": "password123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "302"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"12e-RXpMh2MjnBkr4lOhQ60nZKmMZQw\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:48:01 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "Foydalanuvchi ro'yxatdan o'tdi",
+                  "user": {
+                    "user_id": "dcd36109-7597-4388-a73c-99c1bc8e4419",
+                    "role": "user",
+                    "user_attempts": 0,
+                    "avatar": "default.png",
+                    "full_name": "Test",
+                    "phone": "998905221290",
+                    "updatedAt": "2023-06-29T18:48:01.474Z",
+                    "createdAt": "2023-06-29T18:48:01.474Z",
+                    "address": null
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "74"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"4a-/BBnRpCgbB9L1BmqIAHx9qBd8/k\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:48:18 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": false,
+                  "message": "Error: Foydalanuvchi allaqachon ro'yxatdan o'tgan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/login": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "login",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998905210501",
+                  "password": "password123"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "242"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"f2-AB1dlbGUHWR2uYHYR/388pKrEoE\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:55:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "Tizimga muvofaqqiyatli kirdingiz",
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOGU4NTQ5MjUtZjIzZi00OGM4LWEyYjktMTk5ZmU1YzNkNWE5IiwiaWF0IjoxNjg4MDY0OTQxfQ.S7AmUs1ZEjPEAettrU_ec5jkWyZ8csVVNU4g7zLOf2A"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "58"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3a-0Hu+sVKQyZTMk6bsHbKi6fYg+SI\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:54:59 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": false,
+                  "message": "Tasdiqlash kodi xato",
+                  "attempts": 5
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/send-code": {
+      "post": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "send-code",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "phone": "998915865499"
                 }
               }
             }
@@ -71,103 +469,330 @@
         },
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "121"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"79-g6Dm0a2K2/N1UIbXGCBl9nKZgfA\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:58:12 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "Tekshiruv kodi yuborildi",
+                  "codeValidationId": "a46647b3-bf57-40ce-8d6f-72b3e453cec3",
+                  "code": "28500"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "45"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2d-upnkdzELn9eSrtcyG0QswjBInKs\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:58:43 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "error",
+                    "value": {
+                      "ok": false,
+                      "message": "Error: invalid phone"
+                    }
+                  },
+                  "example-1": {
+                    "summary": "error",
+                    "value": {
+                      "ok": false,
+                      "message": "Error: Foydalanuvchi ro'yxatdan o'tmagan"
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/users/login": {
+    "/api/users/validate-code": {
       "post": {
         "tags": [
           "/users"
         ],
-        "summary": "http://localhost:4000/login",
+        "summary": "validate-code",
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
                 "type": "object",
                 "example": {
-                  "phone": "998905221128",
-                  "password": "parol124"
+                  "code": "63747"
                 }
               }
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/users/validate-code": {
-      "post": {
-        "tags": [
-          "/users"
-        ],
-        "summary": "http://localhost:4000/users/validate-code",
         "parameters": [
           {
             "name": "code-validation-id",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "3157ce50-7e66-4d4a-bdd0-15d08e33a05d"
+            "example": "f72405c5-895b-4a27-b316-1b7c9fc4c13b"
           }
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
+        "responses": {
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "242"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"f2-yqHs1bLEfQdnFocuW/mLx9HEyzk\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:00:20 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
                 "example": {
-                  "code": "84718"
+                  "ok": true,
+                  "message": "Tizimga muvofaqqiyatli kirdingiz",
+                  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiYjk2MDgwYzktYmRjMS00M2ZlLTlkYjMtOGMxNjllMTJiZDNmIiwiaWF0IjoxNjg4MDY1MjIwfQ.SXGlt7mU-aZy1YVCYXAXKX8NOPCQIxv8zDnT4-_dOWw"
                 }
               }
             }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "57"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"39-j8bQ+jeh0/J2I+YylUBIXVL03b8\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 18:57:04 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "error",
+                    "value": {
+                      "ok": false,
+                      "message": "Error: Tasdiqlash kodi topilmadi"
+                    }
+                  },
+                  "example-1": {
+                    "summary": "code false",
+                    "value": {
+                      "ok": false,
+                      "message": "Tasdiqlash kodi xato",
+                      "attempts": 3
+                    }
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/users/edit-full-name": {
-      "post": {
+    "/api/users/edit-full-name": {
+      "patch": {
         "tags": [
           "/users"
         ],
-        "summary": "http://localhost:4000/users/edit-full-name",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
-          }
-        ],
+        "summary": "edit-full-name",
         "requestBody": {
           "content": {
             "application/json": {
@@ -181,54 +806,171 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        },
         "security": [
           {
             "noauthAuth": []
           }
-        ]
-      }
-    },
-    "/users/avatar": {
-      "post": {
-        "tags": [
-          "/users"
         ],
-        "summary": "http://localhost:4000/users/avatar",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOGU4NTQ5MjUtZjIzZi00OGM4LWEyYjktMTk5ZmU1YzNkNWE5IiwiaWF0IjoxNjg4MDY0OTQxfQ.S7AmUs1ZEjPEAettrU_ec5jkWyZ8csVVNU4g7zLOf2A"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "30"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"1e-InsgVC2urUn4RnT8fUAswajJf7w\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:12:55 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "edited"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "44"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2c-/CwbeMPdT3ZLLkGscPRNqVA/voc\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:11:39 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": false,
+                  "message": "Session yakunlangan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/avatar": {
+      "patch": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "avatar",
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/users_avatar_body"
+                "type": "object",
+                "properties": {
+                  "avatar": {
+                    "type": "string",
+                    "format": "binary"
+                  }
+                }
               }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
             }
           }
         },
@@ -236,28 +978,103 @@
           {
             "noauthAuth": []
           }
-        ]
-      }
-    },
-    "/users/edit-phone": {
-      "post": {
-        "tags": [
-          "/users"
         ],
-        "summary": "http://localhost:4000/users/edit-phone",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOTFlZTNiNjEtNzAzNC00MWZjLTk2M2EtMzM0YzFhOWQ0MDI4IiwiaWF0IjoxNjg2NTk5MDQ4fQ.Wg1ALVKeklC5AYpwsRLyiEwbpjeuWxezTuYwBCVjmpo"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNGUxOTE0ZDQtZTY4NC00NWUyLWE0ZjYtMDNmZWQ4YzM4N2RjIiwiaWF0IjoxNjg4MjM1NTk4fQ.DzqEGx0o8YDOQ5LeCRMXs2GWK0uWYcM1fC0yLQS77AM"
           }
         ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "398"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"18e-K13lyJFpc1GvgYctrfF6K1QwYFY\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:16:21 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "Rasm o'zgartirildi",
+                  "user": {
+                    "user_id": "e8532fe6-64f4-405c-866d-97f4877cbc2c",
+                    "full_name": "Isms Familiya",
+                    "phone": "998905221128",
+                    "address": null,
+                    "role": "user",
+                    "user_attempts": 0,
+                    "avatar": "e4c0f5512b0e0ed58e1f4e546fac51be.png",
+                    "password": "$2b$10$wUMJLhoY1CDD5LKujM.z5eK6y0ki5A4f.rnL0/HvYci6aHzvavmkS",
+                    "createdAt": "2023-06-27T21:13:34.817Z",
+                    "updatedAt": "2023-06-29T19:16:21.971Z"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/edit-phone": {
+      "patch": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "edit-phone",
         "requestBody": {
           "content": {
             "application/json": {
@@ -270,245 +1087,1378 @@
             }
           }
         },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        },
         "security": [
           {
             "noauthAuth": []
           }
-        ]
-      }
-    },
-    "/users/profile": {
-      "get": {
-        "tags": [
-          "/users"
         ],
-        "summary": "http://localhost:4000/users/profile",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOGU4NTQ5MjUtZjIzZi00OGM4LWEyYjktMTk5ZmU1YzNkNWE5IiwiaWF0IjoxNjg4MDY0OTQxfQ.S7AmUs1ZEjPEAettrU_ec5jkWyZ8csVVNU4g7zLOf2A"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/users/logout": {
-      "get": {
-        "tags": [
-          "/users"
-        ],
-        "summary": "http://localhost:4000/users/logout",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "43"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2b-/krsTRl3lnGw+8MD7rlqalOBNsI\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:20:20 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiY2Y1NTkwZTktNTVjMS00OTM0LWE1NDUtMzU0YWVhZDlmZmZhIiwiaWF0IjoxNjg2ODE2MTgxfQ.r9jXaP0HJ6NmWc507LhFU9a6tkXBcHCerapCb9Z8uDk"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
             "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/users/send-code": {
-      "post": {
-        "tags": [
-          "/users"
-        ],
-        "summary": "http://localhost:4000/send-code",
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "type": "object",
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
                 "example": {
-                  "phone": "998905221115"
+                  "ok": true,
+                  "message": "Raqam o'zgartirildi"
                 }
               }
             }
           }
-        },
+        }
+      }
+    },
+    "/api/users/profile": {
+      "get": {
+        "tags": [
+          "/users"
+        ],
+        "summary": "get profile",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMzc1YTY4YzMtY2RhMy00MjU5LWJjZGEtMDIzMDU4ZGQwNjY3IiwiaWF0IjoxNjg4NjUwNDUwfQ.DEsWvWiQx7EcaHmboNKqWGbYFvfG57S743Dhn_jvgm8"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "293"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"125-9u1BKeBukyXth3J6uDtcAZOpDBI\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:21:33 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "user": {
+                    "user_id": "e8532fe6-64f4-405c-866d-97f4877cbc2c",
+                    "full_name": "Isms Familiya",
+                    "phone": "998905210403",
+                    "address": null,
+                    "role": "user",
+                    "user_attempts": 0,
+                    "avatar": "e4c0f5512b0e0ed58e1f4e546fac51be.png",
+                    "createdAt": "2023-06-27T21:13:34.817Z",
+                    "updatedAt": "2023-06-29T19:20:56.775Z"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/update": {
-      "patch": {
+    "/api/users/logout": {
+      "get": {
         "tags": [
-          "/announcements"
+          "/users"
         ],
-        "summary": "http://localhost:4000/users/announcement-create",
+        "summary": "logout",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiOGU4NTQ5MjUtZjIzZi00OGM4LWEyYjktMTk5ZmU1YzNkNWE5IiwiaWF0IjoxNjg4MDY0OTQxfQ.S7AmUs1ZEjPEAettrU_ec5jkWyZ8csVVNU4g7zLOf2A"
           }
         ],
+        "responses": {
+          "400": {
+            "description": "Bad Request",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "44"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2c-/CwbeMPdT3ZLLkGscPRNqVA/voc\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Thu, 29 Jun 2023 19:23:04 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": false,
+                  "message": "Session yakunlangan"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/announcements/create": {
+      "post": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "create",
         "requestBody": {
           "content": {
             "multipart/form-data": {
               "schema": {
-                "$ref": "#/components/schemas/announcements_update_body"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/announcements/active": {
-      "get": {
-        "tags": [
-          "/announcements"
-        ],
-        "summary": "http://localhost:4000/announcements/active",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/announcements/inactive": {
-      "get": {
-        "tags": [
-          "/announcements"
-        ],
-        "summary": "http://localhost:4000/announcements/inactive",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Successful response",
-            "content": {
-              "application/json": {}
-            }
-          }
-        }
-      }
-    },
-    "/announcements/activation": {
-      "patch": {
-        "tags": [
-          "/announcements"
-        ],
-        "summary": "http://localhost:4000/announcements/activation",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
-          }
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
                 "type": "object",
-                "example": {
-                  "announcement_id": "7672ede1-2e48-42f1-9efc-af12507bc41e"
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "example": "Toshkent"
+                  },
+                  "district": {
+                    "type": "string",
+                    "example": "Chilonzor"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Alisher Navoiy ko'chasi "
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "sale"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "toshkent-uy-sotiladi"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "O'rmonga o't ketsa Ho'lu toshkenlik birday yonadi"
+                  },
+                  "images": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": "100000"
+                  },
+                  "price_type": {
+                    "type": "string",
+                    "example": "dollar"
+                  },
+                  "phone": {
+                    "type": "integer",
+                    "example": "998905210501"
+                  }
                 }
               }
             }
           }
         },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiY2Q3YWFhOWItMTYxYy00NTA5LThiYjktZjg0MTE1ZGE4ZWNhIiwiaWF0IjoxNjg5MjUxMTkyfQ.HkDdC4NH24LELlBXzatpUj13whaTWEVWIGZ1xkhULwU"
+          }
+        ],
         "responses": {
-          "200": {
-            "description": "Successful response",
+          "201": {
+            "description": "Created",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "558"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"22e-EFzkzBEneOIXPJMDQ9cRyfXmd1k\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:09:50 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "announcement": {
+                    "announcement_id": "5cdeedd7-3285-4d79-b35e-fbe9f0fe5312",
+                    "status": false,
+                    "confirm": false,
+                    "likeCount": 0,
+                    "viewCount": 0,
+                    "rec": false,
+                    "user_id": "dcd36109-7597-4388-a73c-99c1bc8e4419",
+                    "slug": "yangilash-test",
+                    "city": "Update Toshkent",
+                    "district": "update Olmazor",
+                    "address": "Alisher Navoiy ko'chasi update",
+                    "type": "sale",
+                    "title": "Yangilash test",
+                    "description": "yangi test test test",
+                    "price": 100000000000000,
+                    "thumb": [
+                      "/uploads/default.png"
+                    ],
+                    "price_type": "dollar",
+                    "updatedAt": "2023-06-30T08:09:50.933Z",
+                    "createdAt": "2023-06-30T08:09:50.933Z"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/delete": {
+    "/api/announcements/update": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "update",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "city": {
+                    "type": "string",
+                    "example": "Update Toshkent"
+                  },
+                  "district": {
+                    "type": "string",
+                    "example": "update Olmazor"
+                  },
+                  "address": {
+                    "type": "string",
+                    "example": "Alisher Navoiy ko'chasi update"
+                  },
+                  "type": {
+                    "type": "string",
+                    "example": "sale"
+                  },
+                  "title": {
+                    "type": "string",
+                    "example": "Yangilash test"
+                  },
+                  "description": {
+                    "type": "string",
+                    "example": "yangi test test test"
+                  },
+                  "images": {
+                    "type": "string",
+                    "format": "binary"
+                  },
+                  "price": {
+                    "type": "integer",
+                    "example": "100000000000000"
+                  },
+                  "price_type": {
+                    "type": "string",
+                    "example": "dollar"
+                  },
+                  "announcement_id": {
+                    "type": "string",
+                    "example": "2308f843-50c3-459c-b806-de14f5976f09"
+                  },
+                  "phone": {
+                    "type": "integer",
+                    "example": "998915865494"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiY2Q3YWFhOWItMTYxYy00NTA5LThiYjktZjg0MTE1ZGE4ZWNhIiwiaWF0IjoxNjg5MjUxMTkyfQ.HkDdC4NH24LELlBXzatpUj13whaTWEVWIGZ1xkhULwU"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "579"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"243-5iNgQ+eHJRzPC1jxy6cUqGXxfyI\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:11:11 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "E'lon yangilandi",
+                  "post": {
+                    "announcement_id": "5cdeedd7-3285-4d79-b35e-fbe9f0fe5312",
+                    "slug": "yangilash-test",
+                    "title": "Yangilash test",
+                    "thumb": [
+                      "/uploads/default.png"
+                    ],
+                    "city": "Update Toshkent",
+                    "district": "update Olmazor",
+                    "address": "Alisher Navoiy ko'chasi update",
+                    "type": "sale",
+                    "description": "yangi test test test",
+                    "price": 100000000000000,
+                    "price_type": "dollar",
+                    "status": false,
+                    "confirm": false,
+                    "likeCount": 0,
+                    "viewCount": 0,
+                    "rec": false,
+                    "createdAt": "2023-06-30T08:09:50.933Z",
+                    "updatedAt": "2023-06-30T08:11:11.546Z",
+                    "user_id": "dcd36109-7597-4388-a73c-99c1bc8e4419"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/announcements/active": {
+      "get": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "get user all active posts",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3e75-/7tjtaqfy1KVQRHUJSuJjMir/no\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:12:45 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "title": "Faol E'lonlar",
+                  "posts": [
+                    {
+                      "announcement_id": "d4ee8271-bb12-4a23-a226-b73e6c905f1d",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi7",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:52.576Z",
+                      "updatedAt": "2023-06-27T06:34:07.432Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "ff9b552f-08d2-4b8d-aef9-0742be1f4c45",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-2",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:19.230Z",
+                      "updatedAt": "2023-06-27T06:33:58.970Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "4dee2bed-6ecc-454f-8399-d1de85ebf920",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-6",
+                      "title": "Yangilash test",
+                      "thumb": [
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png"
+                      ],
+                      "city": "Update Toshkent",
+                      "district": "update Olmazor",
+                      "address": "Alisher Navoiy ko'chasi update",
+                      "type": "sale",
+                      "description": "yangi test test test",
+                      "price": 100000000000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": true,
+                      "createdAt": "2023-06-20T19:29:02.245Z",
+                      "updatedAt": "2023-06-29T18:41:30.748Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "727b9339-f79b-4678-be45-d7a468b82a0a",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-0-7",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:01.346Z",
+                      "updatedAt": "2023-06-27T06:33:56.190Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "61229e58-e39d-4cf1-b994-58e53ba10fe0",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-6",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:00.364Z",
+                      "updatedAt": "2023-06-27T06:33:53.822Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d4372f58-cd86-4c71-b4fb-85252ae480da",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:59.289Z",
+                      "updatedAt": "2023-06-27T06:34:01.649Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "c79c3a86-1b10-49ba-9f15-477daa54dda1",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-4",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:57.866Z",
+                      "updatedAt": "2023-06-27T06:33:51.209Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "3928eddc-ae30-4149-8fe6-f8070ee72390",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-3",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:05:49.981Z",
+                      "updatedAt": "2023-06-20T19:32:08.745Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "84035e74-eb8b-4ca8-9e1b-8bd35d8740c8",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 2,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T18:56:31.339Z",
+                      "updatedAt": "2023-06-26T12:25:42.612Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "c7afe45d-f863-42ae-90a3-77373bbf7f28",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-3-0",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 10,
+                      "rec": true,
+                      "createdAt": "2023-06-20T18:56:29.665Z",
+                      "updatedAt": "2023-06-26T07:33:38.509Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    }
+                  ],
+                  "totalCount": 17,
+                  "c_page": 1,
+                  "p_page": 10
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/announcements/inactive": {
+      "get": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "get user all inactive posts",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"36ca-b3ESAaFU75nTQMFfRC+t/RxykeA\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:13:36 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "title": "Nofaol E'lonlar",
+                  "posts": [
+                    {
+                      "announcement_id": "5cdeedd7-3285-4d79-b35e-fbe9f0fe5312",
+                      "slug": "yangilash-test",
+                      "title": "Yangilash test",
+                      "thumb": [
+                        "/uploads/default.png"
+                      ],
+                      "city": "Update Toshkent",
+                      "district": "update Olmazor",
+                      "address": "Alisher Navoiy ko'chasi update",
+                      "type": "sale",
+                      "description": "yangi test test test",
+                      "price": 100000000000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-30T08:09:50.933Z",
+                      "updatedAt": "2023-06-30T08:11:11.546Z",
+                      "user_id": "dcd36109-7597-4388-a73c-99c1bc8e4419"
+                    },
+                    {
+                      "announcement_id": "0a3bd731-a627-4e35-b4af-102d36a1384c",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi70",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-27T06:21:23.784Z",
+                      "updatedAt": "2023-06-27T06:21:23.784Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "873aee68-bcc2-4a27-9dfa-43bbba3e391f",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi35",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:32:04.205Z",
+                      "updatedAt": "2023-06-26T15:32:04.205Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "7abe1c04-0c80-43c2-a170-826eb2bdfda5",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi299",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:32:03.026Z",
+                      "updatedAt": "2023-06-26T15:32:03.026Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "ec3bfb6b-669d-4c5c-b104-e446ed7b1df5",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi78",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:32:02.059Z",
+                      "updatedAt": "2023-06-26T15:32:02.059Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "6ed5d7a4-383d-48e3-9c54-07986b9cad41",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi54",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:32:00.677Z",
+                      "updatedAt": "2023-06-26T15:32:00.677Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "60cef93b-8f8a-49af-a48e-529cd1e58f11",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi4",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:58.434Z",
+                      "updatedAt": "2023-06-26T15:31:58.434Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "6befa5a3-b5a0-4082-b41b-a9c9c91a4126",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:57.188Z",
+                      "updatedAt": "2023-06-26T15:31:57.188Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d3122c13-10de-47f0-8a9a-1f47a26a68a5",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi5",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:56.314Z",
+                      "updatedAt": "2023-06-26T15:31:56.314Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "26ef848f-b8eb-47da-98fd-e8f858ab71b4",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi77",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": false,
+                      "confirm": false,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:55.077Z",
+                      "updatedAt": "2023-06-26T15:31:55.077Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    }
+                  ],
+                  "totalCount": 16,
+                  "c_page": 1,
+                  "p_page": 10
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/announcements/activation/56d7cc70-fabb-4732-8ec2-38f895183686": {
+      "patch": {
+        "tags": [
+          "/announcements"
+        ],
+        "summary": "activate post",
+        "requestBody": {
+          "content": {}
+        },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "48"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"30-5QByE84Ffd6yZP6k/kHfJjMh+yU\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 01 Jul 2023 06:39:47 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "examples": {
+                  "example-0": {
+                    "summary": "activate post",
+                    "value": {
+                      "ok": true,
+                      "message": "E'lon faol",
+                      "status": true
+                    }
+                  },
+                  "example-1": {
+                    "summary": "inactivate post",
+                    "value": {
+                      "ok": true,
+                      "message": "E'lon nofaol",
+                      "status": false
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/announcements/delete/56d7cc70-fabb-4732-8ec2-38f895183686": {
       "delete": {
         "tags": [
           "/announcements"
@@ -518,44 +2468,86 @@
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "40"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"28-eOu2uWotWTSyzyIVCwTime9mifs\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 01 Jul 2023 06:50:20 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "E'lon o'chirildi"
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/unlike": {
+    "/api/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/like": {
       "patch": {
         "tags": [
           "/announcements"
         ],
-        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
-          }
-        ],
+        "summary": "like",
         "requestBody": {
           "content": {
             "application/json": {
@@ -568,35 +2560,90 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "21"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"15-mjfMYTcagQOoTLhogO+mAPFN758\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:23:41 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "count": 3
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/like": {
+    "/api/announcements/84035e74-eb8b-4ca8-9e1b-8bd35d8740c8/unlike": {
       "patch": {
         "tags": [
           "/announcements"
         ],
-        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
-        "parameters": [
-          {
-            "name": "authorization",
-            "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
-            "schema": {
-              "type": "string"
-            },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
-          }
-        ],
+        "summary": "unlike",
         "requestBody": {
           "content": {
             "application/json": {
@@ -609,129 +2656,1178 @@
             }
           }
         },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
+          }
+        ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "21"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"15-SC01SZMMUPD4kshifRkV6HGk5Z0\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:24:15 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "count": 2
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/liked": {
+    "/api/announcements/liked": {
       "get": {
         "tags": [
           "/announcements"
         ],
-        "summary": "http://localhost:4000/announcements/b9167f47-33db-48ab-a409-df7e027af84c/like",
+        "summary": "get liked posts",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"916-rXc6mUY+JUp1u15IQf0aNesm8cE\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:25:14 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "title": "Saqlanganlar",
+                  "posts": [
+                    {
+                      "like_id": "e975e1e8-45f7-487d-afca-741ade7430ee",
+                      "user_id": "dcd36109-7597-4388-a73c-99c1bc8e4419",
+                      "announcement_id": "84035e74-eb8b-4ca8-9e1b-8bd35d8740c8",
+                      "date": "2023-06-30T08:25:10.345Z",
+                      "createdAt": "2023-06-30T08:25:10.345Z",
+                      "updatedAt": "2023-06-30T08:25:10.345Z",
+                      "announcement.announcement_id": "84035e74-eb8b-4ca8-9e1b-8bd35d8740c8",
+                      "announcement.slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-8",
+                      "announcement.title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "announcement.thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "announcement.city": "Toshkent",
+                      "announcement.district": "Olmazor",
+                      "announcement.address": "Alisher Navoiy ko'chasi",
+                      "announcement.type": "rent",
+                      "announcement.description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "announcement.price": 5000000,
+                      "announcement.price_type": "dollar",
+                      "announcement.status": true,
+                      "announcement.confirm": true,
+                      "announcement.likeCount": 3,
+                      "announcement.viewCount": 0,
+                      "announcement.rec": false,
+                      "announcement.createdAt": "2023-06-20T18:56:31.339Z",
+                      "announcement.updatedAt": "2023-06-30T08:25:10.330Z",
+                      "announcement.user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    }
+                  ],
+                  "totalCount": 1,
+                  "c_page": 1,
+                  "p_page": 10
+                }
+              }
             }
           }
         }
       }
     },
-    "/announcements/liked/delete": {
+    "/api/announcements/liked/delete": {
       "delete": {
         "tags": [
           "/announcements"
         ],
-        "summary": "http://localhost:4000/announcements/liked/delete",
+        "summary": "liked delete",
         "parameters": [
           {
             "name": "authorization",
             "in": "header",
-            "required": false,
-            "style": "simple",
-            "explode": false,
             "schema": {
               "type": "string"
             },
-            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiZjIzNWJiNzctZGVlMS00OTI0LTk4MzMtYTFhZDc2NWY1NzczIiwiaWF0IjoxNjg2OTIzMDMwfQ.gtysrqzKr1sOR_PaQmlHwuPqgTFAZGzraslix93gxtc"
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiNmNkNzdiNTEtNDAzMC00MDlmLTk3MGYtZjJjNjZlMmE1Mjc0IiwiaWF0IjoxNjg4MTEyNTU5fQ.fbkM6gh48cp4IkvWl1OQ4trwT-Y_XH1CKm796_-VQtE"
           }
         ],
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "Content-Length": {
+                "schema": {
+                  "type": "integer",
+                  "example": "47"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"2f-YaGtv+sBcSBjpVAKb9oNLLSx3ow\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:26:00 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "Saqlanganlar o'chirildi"
+                }
+              }
             }
           }
         }
       }
     },
-    "/home/posts/olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-3-0": {
+    "/api/posts/yangilash-test4": {
       "get": {
         "tags": [
           "/home"
         ],
-        "summary": "http://localhost:4000/home?c_page=3",
+        "summary": "get post by slug",
         "responses": {
           "200": {
-            "description": "Successful response",
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "integer",
+                  "example": "100"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer",
+                  "example": "98"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 01 Jul 2023 18:00:55 GMT"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "schema": {
+                  "type": "integer",
+                  "example": "1688235312"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"740-58o5JlZMcdVnhuRZkX1M80KrHqw\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
             "content": {
-              "application/json": {}
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "announcement": {
+                    "announcement_id": "c7afe45d-f863-42ae-90a3-77373bbf7f28",
+                    "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-3-0",
+                    "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                    "thumb": [
+                      "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                      "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                      "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                      "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                      "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                      "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                    ],
+                    "city": "Toshkent",
+                    "district": "Olmazor",
+                    "address": "Alisher Navoiy ko'chasi",
+                    "type": "rent",
+                    "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                    "price": 5000000,
+                    "price_type": "dollar",
+                    "status": true,
+                    "confirm": true,
+                    "likeCount": 0,
+                    "viewCount": 12,
+                    "rec": true,
+                    "createdAt": "2023-06-20T18:56:29.665Z",
+                    "updatedAt": "2023-07-01T18:00:55.647Z",
+                    "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                  },
+                  "user": {
+                    "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724",
+                    "full_name": "user",
+                    "phone": "998994580940"
+                  }
+                }
+              }
             }
           }
         }
       }
     },
-    "/search": {
+    "/api/search": {
       "get": {
         "tags": [
           "/home"
         ],
-        "summary": "http://localhost:4000/search?city=Toshkent&type=rent&price_type=sum",
+        "summary": "search",
         "parameters": [
           {
             "name": "city",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             },
             "example": "Toshkent"
           },
           {
-            "name": "type",
+            "name": "search",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             },
-            "example": "rent"
+            "example": "tosh"
+          },
+          {
+            "name": "type",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "example": "sale"
           },
           {
             "name": "price_type",
             "in": "query",
-            "required": false,
-            "style": "form",
-            "explode": true,
             "schema": {
               "type": "string"
             },
-            "example": "sum"
+            "example": "dollar"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3cf7-PPi5ZgC/7WntifJDbFuLM5P+FQc\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Fri, 30 Jun 2023 08:31:13 GMT"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "UY JOY BARAKA",
+                  "posts": [
+                    {
+                      "announcement_id": "61229e58-e39d-4cf1-b994-58e53ba10fe0",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-6",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:00.364Z",
+                      "updatedAt": "2023-06-27T06:33:53.822Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "727b9339-f79b-4678-be45-d7a468b82a0a",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-0-7",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:01.346Z",
+                      "updatedAt": "2023-06-27T06:33:56.190Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d4372f58-cd86-4c71-b4fb-85252ae480da",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:59.289Z",
+                      "updatedAt": "2023-06-27T06:34:01.649Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "2ead8601-bcc1-4ebc-b803-cb077c1904f5",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:56.774Z",
+                      "updatedAt": "2023-06-30T08:16:36.354Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "ff9b552f-08d2-4b8d-aef9-0742be1f4c45",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-2",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:19.230Z",
+                      "updatedAt": "2023-06-27T06:33:58.970Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "db2ede4e-adfa-4826-84ac-4fe0cfa13f4d",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-7",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:20.537Z",
+                      "updatedAt": "2023-06-30T08:16:38.905Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d463250e-a14f-4108-abe0-29daf6a23e15",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-1",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-25T15:30:13.332Z",
+                      "updatedAt": "2023-06-30T08:16:41.308Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "3928eddc-ae30-4149-8fe6-f8070ee72390",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-3",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:05:49.981Z",
+                      "updatedAt": "2023-06-20T19:32:08.745Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "c79c3a86-1b10-49ba-9f15-477daa54dda1",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-4",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:57.866Z",
+                      "updatedAt": "2023-06-27T06:33:51.209Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    }
+                  ],
+                  "c_page": 1,
+                  "totalCount": 32
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/000/api/home": {
+      "get": {
+        "tags": [
+          "/home"
+        ],
+        "summary": "home",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "headers": {
+              "X-Powered-By": {
+                "schema": {
+                  "type": "string",
+                  "example": "Express"
+                }
+              },
+              "X-RateLimit-Limit": {
+                "schema": {
+                  "type": "integer",
+                  "example": "100"
+                }
+              },
+              "X-RateLimit-Remaining": {
+                "schema": {
+                  "type": "integer",
+                  "example": "93"
+                }
+              },
+              "Date": {
+                "schema": {
+                  "type": "string",
+                  "example": "Sat, 01 Jul 2023 18:02:07 GMT"
+                }
+              },
+              "X-RateLimit-Reset": {
+                "schema": {
+                  "type": "integer",
+                  "example": "1688235312"
+                }
+              },
+              "Content-Type": {
+                "schema": {
+                  "type": "string",
+                  "example": "application/json; charset=utf-8"
+                }
+              },
+              "ETag": {
+                "schema": {
+                  "type": "string",
+                  "example": "W/\"3d5f-qAo9RFz7zdYiBsM0qgZyzKsDc8g\""
+                }
+              },
+              "Vary": {
+                "schema": {
+                  "type": "string",
+                  "example": "Accept-Encoding"
+                }
+              },
+              "Content-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "gzip"
+                }
+              },
+              "Connection": {
+                "schema": {
+                  "type": "string",
+                  "example": "keep-alive"
+                }
+              },
+              "Keep-Alive": {
+                "schema": {
+                  "type": "string",
+                  "example": "timeout=5"
+                }
+              },
+              "Transfer-Encoding": {
+                "schema": {
+                  "type": "string",
+                  "example": "chunked"
+                }
+              }
+            },
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object"
+                },
+                "example": {
+                  "ok": true,
+                  "message": "UY JOY BARAKA",
+                  "posts": [
+                    {
+                      "announcement_id": "c7afe45d-f863-42ae-90a3-77373bbf7f28",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-3-0",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 12,
+                      "rec": true,
+                      "createdAt": "2023-06-20T18:56:29.665Z",
+                      "updatedAt": "2023-07-01T18:00:55.647Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "84035e74-eb8b-4ca8-9e1b-8bd35d8740c8",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 3,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T18:56:31.339Z",
+                      "updatedAt": "2023-06-30T08:25:10.330Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d4372f58-cd86-4c71-b4fb-85252ae480da",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-8",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:59.289Z",
+                      "updatedAt": "2023-06-27T06:34:01.649Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "ff9b552f-08d2-4b8d-aef9-0742be1f4c45",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-2",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:19.230Z",
+                      "updatedAt": "2023-06-27T06:33:58.970Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "4dee2bed-6ecc-454f-8399-d1de85ebf920",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-7-6",
+                      "title": "Yangilash test",
+                      "thumb": [
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png"
+                      ],
+                      "city": "Update Toshkent",
+                      "district": "update Olmazor",
+                      "address": "Alisher Navoiy ko'chasi update",
+                      "type": "sale",
+                      "description": "yangi test test test",
+                      "price": 100000000000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": true,
+                      "createdAt": "2023-06-20T19:29:02.245Z",
+                      "updatedAt": "2023-06-29T18:41:30.748Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "db2ede4e-adfa-4826-84ac-4fe0cfa13f4d",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-4-7",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:29:20.537Z",
+                      "updatedAt": "2023-06-30T08:16:38.905Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "873aee68-bcc2-4a27-9dfa-43bbba3e391f",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi35",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:32:04.205Z",
+                      "updatedAt": "2023-06-30T08:15:46.537Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "d463250e-a14f-4108-abe0-29daf6a23e15",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi-1",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-25T15:30:13.332Z",
+                      "updatedAt": "2023-06-30T08:16:41.308Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "50ad4571-e630-4e47-a679-2f891eba1957",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi3",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/default.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "dollar",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-26T15:31:17.897Z",
+                      "updatedAt": "2023-06-30T08:16:48.762Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    },
+                    {
+                      "announcement_id": "2ead8601-bcc1-4ebc-b803-cb077c1904f5",
+                      "slug": "olmazor-tumanida-joylashgan-2x-kvartira-ijaraga-beriladi",
+                      "title": "Olmazor tumanida joylashgan\u20282x kvartira ijaraga beriladi",
+                      "thumb": [
+                        "/uploads/d5fae34f0e93dd539a7d3c43d6740169.png",
+                        "/uploads/4314b868f4659e797dbede8ccadd650c.png",
+                        "/uploads/24dcf901dba441cd4e9ba64bccfcf6a8.png",
+                        "/uploads/2d1150b69c99f9b78c350147b808cc33.png",
+                        "/uploads/aa789e5c3aaa8ed8c3d67833569cf404.png",
+                        "/uploads/16b8ac6f7786fa72dd15375331a09f94.png"
+                      ],
+                      "city": "Toshkent",
+                      "district": "Olmazor",
+                      "address": "Alisher Navoiy ko'chasi",
+                      "type": "rent",
+                      "description": "Сдается в аренду для семьи трёхкомнатная квартира в центральном,\u2028спальном районе,на Дархане. Доброжелательные соседи,развитая \u2028инфраструктура,в трёх минутах от метро Хамид Олимжан. Рядом \u2028есть школа,детский сад.Квартира полностью оснащена для жилья:\u2028свежий ремонт, меблирована, детская будет обставлена по желанию\u2028жильцов,три телевизора,два кондиционера, большой холодильник,\u2028стиральная машина, пылесос. Техника, мебель и посуда новые,не\u2028пользованные. Вы будете первым хозяином. ",
+                      "price": 5000000,
+                      "price_type": "sum",
+                      "status": true,
+                      "confirm": true,
+                      "likeCount": 0,
+                      "viewCount": 0,
+                      "rec": false,
+                      "createdAt": "2023-06-20T19:28:56.774Z",
+                      "updatedAt": "2023-06-30T08:16:36.354Z",
+                      "user_id": "0b4ed902-659a-43ba-a41f-5aa4a79c5724"
+                    }
+                  ],
+                  "c_page": 1,
+                  "totalCount": 33
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/chats": {
+      "get": {
+        "tags": [
+          "/chats"
+        ],
+        "summary": "chats",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiMzc1YTY4YzMtY2RhMy00MjU5LWJjZGEtMDIzMDU4ZGQwNjY3IiwiaWF0IjoxNjg4NjUwNDUwfQ.DEsWvWiQx7EcaHmboNKqWGbYFvfG57S743Dhn_jvgm8"
           }
         ],
         "responses": {
@@ -743,69 +3839,44 @@
           }
         }
       }
-    }
-  },
-  "components": {
-    "schemas": {
-      "announcements_update_body": {
-        "type": "object",
-        "properties": {
-          "city": {
-            "type": "string",
-            "example": "Update Toshkent"
-          },
-          "district": {
-            "type": "string",
-            "example": "update Olmazor"
-          },
-          "address": {
-            "type": "string",
-            "example": "Alisher Navoiy ko'chasi update"
-          },
-          "type": {
-            "type": "string",
-            "example": "sale"
-          },
-          "title": {
-            "type": "string",
-            "example": "Yangilash test"
-          },
-          "description": {
-            "type": "string",
-            "example": "yangi test test test"
-          },
-          "images": {
-            "type": "string",
-            "format": "binary"
-          },
-          "price": {
-            "type": "integer",
-            "example": 100000000000000
-          },
-          "price_type": {
-            "type": "string",
-            "example": "dollar"
-          },
-          "announcement_id": {
-            "type": "string",
-            "example": "4dee2bed-6ecc-454f-8399-d1de85ebf920"
-          }
-        }
-      },
-      "users_avatar_body": {
-        "type": "object",
-        "properties": {
-          "avatar": {
-            "type": "string",
-            "format": "binary"
-          }
-        }
-      }
     },
-    "securitySchemes": {
-      "noauthAuth": {
-        "type": "http",
-        "scheme": "noauth"
+    "/api/chats/message/f3745ba9-0a1b-49fd-b812-4f72bd32cedb": {
+      "post": {
+        "tags": [
+          "/chats"
+        ],
+        "summary": "http://localhost:4000/api/chats",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "example": {
+                  "message": "Bizga bering 8 kishimiz 50 mindan beramiz asjkdhskjdhas",
+                  "announcement_id": "290c332b-d370-4dff-99b3-8a37c029cbb5"
+                }
+              }
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "schema": {
+              "type": "string"
+            },
+            "example": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzZXNzaW9uX2lkIjoiODFiOWFmOTgtZjk1Mi00YmE2LTk3N2QtMGY1MWNlODNlNDFmIiwiaWF0IjoxNjg4OTYxMDM0fQ.nMF3JESL86iCNp7_5E_wDCyZkZBOudjjACs_zP2HYUw"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful response",
+            "content": {
+              "application/json": {}
+            }
+          }
+        }
       }
     }
   }

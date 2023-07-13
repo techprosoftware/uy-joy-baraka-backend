@@ -1,6 +1,6 @@
 const {
   loginGET,
-  LoginPOST,
+  loginPOST,
   Dashboard,
   pendingAnnouncements,
   deletePending,
@@ -8,16 +8,21 @@ const {
   getAllAnnouncements,
   deleteAnnouncement,
   getAllUsers,
-  DeleteUser,
+  deleteUser,
   recAnnouncement,
+  getChat,
+  getAds,
+  postAds,
 } = require("../controllers/admin/admin-controller");
+
 const adminMiddleware = require("../middlewares/admin-middleware");
+const uploadSingleMiddleware = require("../middlewares/upload-single-middleware");
 
 const express = require("express");
 const router = express.Router();
 
 router.get("/login", loginGET);
-router.post("/login", LoginPOST);
+router.post("/login", loginPOST);
 
 router.use(adminMiddleware);
 
@@ -31,7 +36,12 @@ router.get("/pending/delete/:announcement_id", deletePending);
 router.get("/announcements/rec/:announcement_id", recAnnouncement);
 
 router.get("/users", getAllUsers);
-router.get("/users/delete/:user_id", DeleteUser);
+router.get("/users/delete/:user_id", deleteUser);
+
+router.get("/chat", getChat);
+
+router.get("/ads", getAds);
+router.post("/ads", uploadSingleMiddleware, postAds);
 
 router.get("/logout", (req, res) => {
   res.clearCookie("token").redirect("/");

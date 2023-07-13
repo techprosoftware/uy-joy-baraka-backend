@@ -1,0 +1,90 @@
+<% var ads, totalCount, title, message, c_page, ok %>
+<%- include('components/header') %>
+
+<%- include('components/navbar') %>
+
+<div id="layoutSidenav">
+    <div id="layoutSidenav_nav">
+        <%- include('components/sidebar') %>
+    </div>
+    <div id="layoutSidenav_content">
+        <main>
+            <div class="container-fluid px-4">
+                <% if(message && ok) { %>
+                    <div class="alert alert-success alert-dismissible fade show my-2" role="alert">
+                        <strong><%= message %></strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } else if (!ok) { %>
+                        <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                            <strong><%= message?.replace("Error", "Xatolik") %></strong>
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                <% } %>
+                <div class="d-flex align-items-center justify-content-between">
+                    <h4 class="my-4"> <%= title %></h4>
+                    <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#add"><i class="fa-solid fa-plus"></i> Qo'shish</button>
+                </div>
+                <div class="row">
+
+
+                </div>
+
+                <!--Pagination-->
+                <div class="clearfix my-3">
+                    <div class="hint-text">Showing <b>10</b> out of <b><%= totalCount %></b> entries</div>
+                    <ul class="pagination justify-content-center">
+
+                        <% for (let i = 0; i < Math.ceil(totalCount / 4); i++) { %>
+                            <li class="page-item">
+                                <a class="page-link" href="/admin/ads?c_page=<%= i + 1 %>" data-category-page="<%= i + 1%>"><%= i + 1 %></a>
+                            </li>
+                        <% } %>
+
+                    </ul>
+                </div>
+
+                    <!-- Modal -->
+                    <div class="modal fade" id="add" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-scrollable">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="staticBackdropLabel">Reklama qo'shish</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <form action="/admin/ads" method="post" enctype="multipart/form-data">
+                                    <div class="modal-body">
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Nomi:</label>
+                                                <input type="text" class="form-control" name="title" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlInput1" class="form-label">Link:</label>
+                                                <input type="text" class="form-control" name="link" />
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="exampleFormControlTextarea1" class="form-label">Ma'lumot:</label>
+                                                <textarea name="description" class="form-control" rows="3"></textarea>
+                                            </div>
+                                            <div class="mb-3">
+                                                <label for="formFile" class="form-label">Rasm yuklash</label>
+                                                <input class="form-control" type="file" id="formFile" name="image">
+                                            </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Yopish</button>
+                                        <button type="submit" class="btn btn-primary">Yaratish</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+
+
+
+        </main>
+    </div>
+</div>
+
+<%- include('components/footer') %>
