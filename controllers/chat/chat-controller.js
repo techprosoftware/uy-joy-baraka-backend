@@ -57,7 +57,7 @@ module.exports = class Chat {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -80,7 +80,7 @@ module.exports = class Chat {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -130,7 +130,7 @@ module.exports = class Chat {
             console.log(e);
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -159,7 +159,7 @@ module.exports = class Chat {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -184,7 +184,7 @@ module.exports = class Chat {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }

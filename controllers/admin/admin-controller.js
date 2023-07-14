@@ -13,7 +13,7 @@ module.exports = class Admin {
     try {
       const { phone, password } = await adminLogin.validateAsync(req.body);
       const { users, sessions } = req.db;
-      console.log(phone, password);
+
       let candidate = await users.findOne({
         where: { phone, role: "admin" },
         raw: true,
@@ -182,6 +182,8 @@ module.exports = class Admin {
         offset: p_page * (c_page - 1),
         order: [["createdAt", "ASC"]],
       });
+
+      console.log(annoucement_items)
 
       res.render("admin/announcements", {
         ok: true,

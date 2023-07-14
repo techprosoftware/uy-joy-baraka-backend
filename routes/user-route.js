@@ -11,10 +11,11 @@ const {
 } = require("../controllers/auth/auth-controller");
 
 const {
-  EditFullName,
-  AvatarPatch,
-  EditPhone,
-  GetProfile,
+  editFullName,
+  avatarPatch,
+  editPhone,
+  getProfile,
+  editPassword,
 } = require("../controllers/user/user-controller");
 
 const fileUpload = require("express-fileupload");
@@ -29,12 +30,12 @@ router.post("/validate-code", ValidateCode);
 
 router.use(userMiddleware);
 
-router.patch("/edit-full-name", EditFullName);
-router.patch("/avatar", fileUpload(), AvatarPatch);
-router.patch("/edit-phone", EditPhone);
-router.get("/profile", GetProfile);
+router.patch("/edit-full-name", editFullName);
+router.patch("/avatar", fileUpload(), avatarPatch);
+router.patch("/edit-phone", editPhone);
+router.get("/profile", getProfile);
 router.get("/logout", LogoutProfile);
-
+router.patch("/edit-password", editPassword);
 module.exports = {
   path: "/api/users",
   router,

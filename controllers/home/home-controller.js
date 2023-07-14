@@ -41,7 +41,7 @@ module.exports = class Home {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -116,7 +116,7 @@ module.exports = class Home {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + ""
+                message: e.toString().replace("Error:", "").trim()
             });
         }
     }
@@ -151,7 +151,7 @@ module.exports = class Home {
         } catch (e) {
             res.status(400).json({
                 ok: false,
-                message: e + "",
+                message: e.toString().replace("Error:", "").trim(),
             });
         }
     }

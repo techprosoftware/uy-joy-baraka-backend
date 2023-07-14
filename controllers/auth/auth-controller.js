@@ -9,7 +9,7 @@ const codeValidation = require("../../validations/code-validation");
 const loginValidation = require("../../validations/login-validation");
 
 const sendSms = require("../../modules/sms");
-const {NODE_ENV} = require("../../config");
+const { NODE_ENV } = require("../../config");
 
 module.exports = class Login {
   static async CheckPhone(req, res) {
@@ -29,7 +29,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }
@@ -43,7 +43,13 @@ module.exports = class Login {
 
       let user = await users.findOne({ where: { phone } });
 
-      if (user) throw new Error("Foydalanuvchi allaqachon ro'yxatdan o'tgan");
+      if (user) {
+        return res.status(401).json({
+          ok: false,
+          message: "Foydalanuvchi allaqachon ro'yxatdan o'tgan",
+          exists: true,
+        });
+      }
 
       let hash = await generateHash(password);
 
@@ -61,7 +67,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }
@@ -98,7 +104,7 @@ module.exports = class Login {
       let code = generateCode();
 
       if (NODE_ENV === "production") {
-        await sendSms(phone, `uyjoybaraka.uz tasdiqlash kodi ${code}`);
+        await sendSms(phone, `KOD: ${code}\nUy joy baraka tasdiqlash kodi\nhttps://uyjoybaraka.uz`);
       } else {
         console.log("code:" + code);
       }
@@ -123,7 +129,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }
@@ -264,7 +270,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }
@@ -281,7 +287,10 @@ module.exports = class Login {
 
       if (!user) throw new Error("Foydalanuvchi ro'yxatdan o'tmagan");
 
-      if (!user.confirm) throw new Error("Tasdiqlanmagan foydalanuvchi, iltimos telefon raqamingizni tasdiqlang")
+      if (!user.confirm)
+        throw new Error(
+          "Tasdiqlanmagan foydalanuvchi, iltimos telefon raqamingizni tasdiqlang"
+        );
 
       let ban = await bans.findOne({
         where: {
@@ -392,7 +401,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }
@@ -419,7 +428,7 @@ module.exports = class Login {
     } catch (e) {
       res.status(400).json({
         ok: false,
-        message: e + "",
+        message: e.toString().replace("Error:", "").trim(),
       });
     }
   }

@@ -108,7 +108,7 @@
                                                     <p class="small text-muted">Manzil: <%= item.address %></p>
                                                     <p class="small text-muted">Turi: <%= item.type %></p>
                                                     <p class="small text-muted">Ma'lumot: <%= item.description %></p>
-
+                                                    <h5  class="small text-muted">Telefon: +<%= item.phone %></h5>
                                                     <h5>Narx: <%= item.price %> <% if(item.price_type === "sum") { %> so'm <% } else { %> $ <% } %></h5>
                                                     <h5>Holati: <% if (item.status) {%> Faol <% } else { %> Nofaol <% } %> </h5>
                                                     <p><i class="fa-solid fa-heart" style="color: #e70d0d;"></i> <%=item.likeCount%>&emsp;<i class="fa-solid fa-eye" style="color: #135bd8;"></i> <%=item.viewCount%></p>

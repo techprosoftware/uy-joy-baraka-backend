@@ -6,7 +6,7 @@ module.exports = Joi.object({
         .error(Error("invalid phone")),
     password: Joi.string()
         .required()
-        .min(3)
+        .min(1)
         .max(32)
         .error(Error("Invalid password")),
 });

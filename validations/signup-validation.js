@@ -9,10 +9,10 @@ module.exports = Joi.object({
         .error(Error("Invalid name")),
     phone: Joi.string()
         .pattern(new RegExp("^998[389][01345789][0-9]{7}$"))
-        .error(Error("invalid phone")),
+        .error(Error("Invalid phone")),
     password: Joi.string()
         .required()
-        .min(3)
+        .min(1)
         .max(32)
         .error(Error("Invalid password")),
 });
