@@ -46,12 +46,12 @@ module.exports = class Announcement {
                 price_type,
                 phone,
             });
-
+ 
             res.status(201).json({
                 ok: true,
                 message: "E'lon tasdiqlash uchun yuborildi",
                 announcement: item.dataValues,
-            })
+            });
         } catch (e) {
             res.status(400).json({
                 ok: false,

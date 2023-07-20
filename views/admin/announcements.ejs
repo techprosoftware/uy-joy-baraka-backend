@@ -33,7 +33,7 @@
                                             <% var dateObj = new Date(item.createdAt); %>
                                             <p class="small text-muted"><%= dateObj.getDate() %>-<%= dateObj.getMonth() + 1 %>-<%= dateObj.getFullYear() %> <% if (item.rec) { %><i class="fa-solid fa-star" style="color: #fbff00;"></i><% } %> </p>
                                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                                <a class="small stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#<%=item.slug%>" >Barchasini ko'rish</a>
+                                                <a class="small stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#post-<%=item.slug%>" >Barchasini ko'rish</a>
                                                 <div class="small"><i class="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
@@ -68,7 +68,7 @@
                 <% if(announcement?.length !== 0) { %>
                     <% for(let item of announcement) { %>
                         <!-- Modal -->
-                        <div class="modal fade" id="<%= item.slug %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal fade" id="post-<%= item.slug %>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                             <div class="modal-dialog modal-dialog-scrollable modal-lg">
                                 <div class="modal-content">
                                     <div class="modal-header">
