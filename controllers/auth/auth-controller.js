@@ -429,7 +429,7 @@ module.exports = class Login {
 
       res.status("200").json({
         ok: true,
-        message: "Logout succesfully",
+        message: "Muvaffaqiyatli chiqish",
       });
     } catch (e) {
       res.status(400).json({
