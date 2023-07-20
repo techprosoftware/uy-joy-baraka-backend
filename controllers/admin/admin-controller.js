@@ -1,6 +1,11 @@
-const adminLogin = require("../../validations/admin-login");
-const { compareHash } = require("../../modules/bcrypt");
+const axios = require("axios");
+
+const { authService } = require("../../modules/sms");
 const { generateToken } = require("../../modules/jwt");
+const { compareHash } = require("../../modules/bcrypt");
+const { SMS_EMAIL, SMS_PASSWORD } = require("../../config");
+const adminLogin = require("../../validations/admin-login");
+const qs = require("qs");
 
 module.exports = class Admin {
   static async loginGET(req, res) {
@@ -59,8 +64,26 @@ module.exports = class Admin {
       const pendingCount = await req.db.announcement.count({
         where: { confirm: false },
       });
-      const userCount = await req.db.users.count({ where: { role: "user" } });
+      const userCount = await req.db.users.count();
       const loginCount = await req.db.logins.count();
+
+      const authInfo = await authService(SMS_EMAIL, SMS_PASSWORD);
+
+      let balance = "Kutilmoqda...";
+
+      if (authInfo.success) {
+        let result = await axios.get(
+          "http://notify.eskiz.uz/api/user/get-limit",
+          {
+            headers: {
+              Authorization: `Bearer ${authInfo.data.token}`,
+            },
+          }
+        );
+        if (result.status >= 200 && result.status < 300) {
+          balance = result.data.data.balance;
+        }
+      }
 
       res.render("admin/index", {
         ok: true,
@@ -69,6 +92,7 @@ module.exports = class Admin {
         pendingCount,
         userCount,
         loginCount,
+        balance,
       });
     } catch (e) {
       res.status(400).json({
@@ -182,8 +206,6 @@ module.exports = class Admin {
         offset: p_page * (c_page - 1),
         order: [["createdAt", "ASC"]],
       });
-
-      console.log(annoucement_items)
 
       res.render("admin/announcements", {
         ok: true,
@@ -425,6 +447,50 @@ module.exports = class Admin {
     }
   }
 
+  static async getUserPosts(req, res) {
+    try {
+      const { user_id } = req.params;
+
+      let { p_page, c_page } = req.query;
+      if (!(p_page || c_page)) {
+        p_page = 10;
+        c_page = 1;
+      }
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
+        throw new Error("invalid c_page and p_page options");
+      }
+      const user = await req.db.users.findOne({ where: { user_id }, raw: true, attributes: ["full_name"] });
+
+      const totalCount = await req.db.announcement.count({
+        where: { user_id },
+      });
+
+      let announcements = await req.db.announcement.findAll({
+        where: { user_id },
+        order: [["createdAt", "ASC"]],
+        raw: true,
+        limit: p_page,
+        offset: p_page * (c_page - 1),
+      });
+
+      res.render("admin/user-posts", {
+        ok: true,
+        title: `${user.full_name}ning e'lonlari`,
+        user,
+        announcements,
+        totalCount,
+        c_page,
+        p_page,
+      });
+    } catch (e) {
+      console.log(e + "");
+      res.status(400).json({
+        ok: false,
+        message: e + "",
+      });
+    }
+  }
+
   static async getAds(req, res) {
     try {
       let { c_page } = req.query;
@@ -443,8 +509,6 @@ module.exports = class Admin {
         limit: 4,
         offset: 4 * (c_page - 1),
       });
-
-      console.log(ads)
 
       res.render("admin/ads", {
         ok: true,
@@ -485,8 +549,6 @@ module.exports = class Admin {
         limit: 4,
       });
 
-      console.log(ads)
-
       res.render("admin/ads", {
         ok: true,
         title: "Reklama",
@@ -515,4 +577,42 @@ module.exports = class Admin {
       });
     }
   }
+
+  // static async getStat(req, res) {
+  //   try {
+  //     const authInfo = await authService(SMS_EMAIL, SMS_PASSWORD);
+  //
+  //     var qs = require("qs");
+  //     var data = qs.stringify({
+  //       year: "2018",
+  //       user_id: "5",
+  //     });
+  //
+  //     if (authInfo.success) {
+  //       var config = {
+  //         method: "post",
+  //         maxBodyLength: Infinity,
+  //         url: "https://notify.eskiz.uz/api/user/totals",
+  //         headers: {
+  //           Authorization: `Bearer ${authInfo.data.token}`,
+  //         },
+  //         data: data,
+  //       };
+  //     }
+  //
+  //     axios(config)
+  //       .then(function (response) {
+  //         console.log(JSON.stringify(response.data));
+  //       })
+  //       .catch(function (error) {
+  //         console.log(error);
+  //       });
+  //   } catch (e) {
+  //     console.log(e + "");
+  //     res.status(400).json({
+  //       ok: false,
+  //       message: e + "",
+  //     });
+  //   }
+  // }
 };

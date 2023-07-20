@@ -25,7 +25,7 @@
                 <!--                <ol class="breadcrumb mb-4">-->
                 <!--                    <li class="breadcrumb-item active"><%= title %></li>-->
                 <!--                </ol>-->
-                <div class="container">
+                <div class="container table-responsive">
                     <table class="table table-striped table-hover">
                         <thead>
                         <tr>
@@ -33,7 +33,7 @@
                             <th>FISh</th>
                             <th>Telefon</th>
                             <th>Sana</th>
-                            <th>Role</th>
+<!--                            <th>Role</th>-->
                             <th>Holati</th>
                             <th>Action</th>
                         </tr>
@@ -51,7 +51,7 @@
                                     <td>+<%= user.phone %></td>
                                     <% var dateObj = new Date(user.createdAt); %>
                                     <td> <%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %></td>
-                                    <td><%= user.role %></td>
+<!--                                    <td><%= user.role %></td>-->
                                     <td><% if (user.confirm) { %>
                                             <span class="status text-success">&bull;</span> Faol
                                         <% } else { %>
@@ -59,13 +59,58 @@
                                         <% } %>
                                         </td>
                                     <td>
-                                        <% if(user.role === "admin") { %>
-                                            <a href="#" class="delete" style="color: #b6aeae;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
-                                        <% } else { %>
-                                            <a href="/admin/users/delete/<%=user.user_id%>" class="delete" style="color: red;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
-                                        <% } %>
+                                        <% if(user.role !== "admin") { %>
+                                            <a href="/admin/users/delete/<%=user.user_id%>" class="delete btn btn-outline-danger btn-sm me-1" style="color: red;" title="Delete" data-toggle="tooltip"><i class="fa-solid fa-trash"></i></a>
+                                        <% }  %>
+                                            <button type="button" class="btn btn-outline-info btn-sm" data-bs-toggle="modal" data-bs-target="#user-<%=index + 1%>">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </button>
                                     </td>
                                 </tr>
+
+                                <!-- Modal -->
+                                <div class="modal fade" id="user-<%=index + 1%>" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div class="modal-dialog">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <div class="card border-0 mb-3" style="max-width: 540px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-4">
+                                                            <img src="<%=user.avatar%>" class="img-fluid rounded-start" alt="..." style="max-width: 150px; height: auto">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">FISH: <%=user.full_name%></h5>
+                                                                <p>Manzil: <%=user.address%></p>
+                                                                <p>Tel: +<%=user.phone%></p>
+                                                                <p>Role: <% if (user.role === "admin") { %>
+                                                                        <i class="fa-solid fa-user-tie"></i> Admin
+                                                                    <% } else { %>
+                                                                        <i class="fa-solid fa-user"></i> User
+                                                                    <% } %></p>
+                                                                <p>Holati: <% if (user.confirm) { %>
+                                                                        Faol
+                                                                    <% } else { %>
+                                                                        Nofaol
+                                                                    <% } %></p>
+                                                                <% var dateObj = new Date(user.createdAt); %>
+                                                                <p>Sana: <%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %></p>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                <a href="/admin/users/posts/<%=user.user_id%>" class="btn btn-success">E'lonlar</a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             <% }) %>
                         <% } %>
                         </tbody>

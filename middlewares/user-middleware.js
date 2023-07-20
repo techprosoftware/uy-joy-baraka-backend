@@ -20,7 +20,7 @@ module.exports = async (req, res, next) => {
 
             if (!session) {
                 try {
-                    res.status(400).json({
+                    res.status(401).json({
                         ok: false,
                         message: "Sessiya yakunlangan",
                     });
@@ -44,7 +44,7 @@ module.exports = async (req, res, next) => {
                 password: undefined,
             }
         } else {
-            res.status(400).json({
+            res.status(401).json({
                 ok: false,
                 message: "Token not found",
             });

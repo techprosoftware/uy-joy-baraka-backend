@@ -1,5 +1,7 @@
-<% var postCount, pendingCount, userCount, loginCount %>
+<% var postCount, pendingCount, userCount, loginCount, balance %>
 <%- include('components/header') %>
+
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
 
 <%- include('components/navbar') %>
 
@@ -10,6 +12,16 @@
     <div id="layoutSidenav_content">
         <main>
             <div class="container-fluid px-4">
+                <% if(balance / 50 < 100) { %>
+                <% console.log(true ) %>
+                    <div class="alert alert-danger alert-dismissible fade show my-2" role="alert">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+                            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+                        </svg>
+                        <strong><%= balance / 50 %> ta sms qoldi, hisobingizni to'ldiring</strong>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                <% } %>
                 <h1 class="mt-4">Dashboard</h1>
                 <ol class="breadcrumb mb-4">
                     <li class="breadcrumb-item active">Statistika</li>
@@ -19,7 +31,7 @@
                         <div class="card bg-primary text-white mb-4">
                             <div class="card-body">
                                 <p>E'lonlar soni</p>
-                                <h3><%= postCount %>+</h3>
+                                <h3><i class="fa-solid fa-scroll"></i> <%= postCount %>+</h3>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="/admin/announcements">View Details</a>
@@ -31,7 +43,7 @@
                         <div class="card bg-warning text-white mb-4">
                             <div class="card-body">
                                 <p>Kutilayotgan e'lonlar soni</p>
-                                <h3><%= pendingCount %>+</h3>
+                                <h3><i class="fa-regular fa-calendar"></i> <%= pendingCount %>+</h3>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="/admin/pending">View Details</a>
@@ -43,7 +55,7 @@
                         <div class="card bg-success text-white mb-4">
                             <div class="card-body">
                                 <p>Foydalanuvchilar soni</p>
-                                <h3><%= userCount %>+</h3>
+                                <h3><i class="fa-solid fa-user"></i> <%= userCount %>+</h3>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="/admin/users">View Details</a>
@@ -55,7 +67,7 @@
                         <div class="card bg-info text-white mb-4">
                             <div class="card-body">
                                 <p>Foydalanuvchilar tashrifi</p>
-                                <h3><%= loginCount %>+</h3>
+                                <h3><i class="fa-solid fa-right-to-bracket"></i> <%= loginCount %>+</h3>
                             </div>
                             <div class="card-footer d-flex align-items-center justify-content-between">
                                 <a class="small text-white stretched-link" href="#">View Details</a>
@@ -63,7 +75,77 @@
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card text-white mb-4" style="background-color: #657D5B">
+                            <div class="card-body">
+                                <p>Balans</p>
+                                <h3> <%= balance %> so'm</h3>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="https://my.eskiz.uz/dashboard">Hisobni to'ldirish</a>
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-6">
+                        <div class="card text-white mb-4" style="background-color: #413C58">
+                            <div class="card-body">
+                                <p>Sms qoldiq</p>
+                                <h3><i class="fa-solid fa-comment-sms"></i> <%= balance / 50 %>+</h3>
+                            </div>
+                            <div class="card-footer d-flex align-items-center justify-content-between">
+                                <a class="small text-white stretched-link" href="https://my.eskiz.uz/dashboard">Hisobni to'ldirish</a>
 
+                                <div class="small text-white"><i class="fas fa-angle-right"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+<!--                    <div id="linechart_material"></div>-->
+
+                    <script>
+                        google.charts.load('current', {'packages':['line']});
+                        google.charts.setOnLoadCallback(drawChart);
+
+                        function drawChart() {
+
+                            var data = new google.visualization.DataTable();
+                            data.addColumn('number', 'Day');
+                            data.addColumn('number', 'Sms');
+                            data.addColumn('number', 'The Avengers');
+                            data.addColumn('number', 'Transformers: Age of Extinction');
+
+                            data.addRows([
+                                [1,  37.8, 80.8, 41.8],
+                                [2,  30.9, 69.5, 32.4],
+                                [3,  25.4,   57, 25.7],
+                                [4,  11.7, 18.8, 10.5],
+                                [5,  11.9, 17.6, 10.4],
+                                [6,   8.8, 13.6,  7.7],
+                                [7,   7.6, 12.3,  9.6],
+                                [8,  12.3, 29.2, 10.6],
+                                [9,  16.9, 42.9, 14.8],
+                                [10, 12.8, 30.9, 11.6],
+                                [11,  5.3,  7.9,  4.7],
+                                [12,  6.6,  8.4,  5.2],
+                                [13,  4.8,  6.3,  3.6],
+                                [14,  4.2,  6.2,  3.4]
+                            ]);
+
+                            var options = {
+                                chart: {
+                                    title: 'Statistika',
+                                    subtitle: 'in millions of dollars (USD)'
+                                },
+                                width: 900,
+                                height: 500
+                            };
+
+                            var chart = new google.charts.Line(document.getElementById('linechart_material'));
+
+                            chart.draw(data, google.charts.Line.convertOptions(options));
+                        }
+                    </script>
 
                 </div>
 

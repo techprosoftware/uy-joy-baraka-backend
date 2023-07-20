@@ -1,8 +1,10 @@
 const { Op } = require("sequelize");
 const moment = require("moment/moment");
+
 const { generateHash, compareHash } = require("../../modules/bcrypt");
 const { generateToken, verifyToken } = require("../../modules/jwt");
 const generateCode = require("../../modules/generate-code");
+
 const phoneValidation = require("../../validations/phone-validation");
 const signUpValidation = require("../../validations/signup-validation");
 const codeValidation = require("../../validations/code-validation");
@@ -287,10 +289,14 @@ module.exports = class Login {
 
       if (!user) throw new Error("Foydalanuvchi ro'yxatdan o'tmagan");
 
-      if (!user.confirm)
-        throw new Error(
-          "Tasdiqlanmagan foydalanuvchi, iltimos telefon raqamingizni tasdiqlang"
-        );
+      if (!user.confirm) {
+        return res.status(400).json({
+          ok: false,
+          message: "Tasdiqlanmagan foydalanuvchi, iltimos telefon raqamingizni tasdiqlang",
+          confirm: false,
+        });
+      }
+
 
       let ban = await bans.findOne({
         where: {

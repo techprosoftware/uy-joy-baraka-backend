@@ -71,14 +71,15 @@ module.exports = class Announcement {
             if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
                 throw new Error("invalid c_page and p_page options");
             }
-            const totalCount = await req.db.announcement.count({ where: { confirm: true, status: true },});
+
+            const whereOptions = {
+                confirm: true, status: true, user_id: req.user.user_id
+            }
+
+            const totalCount = await req.db.announcement.count({ where: whereOptions });
 
             let posts = await req.db.announcement.findAll({
-                where: {
-                    confirm: true,
-                    status: true,
-                    user_id: req.user.user_id
-                },
+                where: whereOptions,
                 order: [["createdAt", "DESC"]],
                 raw: true,
                 limit: p_page,
@@ -112,11 +113,14 @@ module.exports = class Announcement {
             if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
                 throw new Error("invalid c_page and p_page options");
             }
-            const totalCount = await req.db.announcement.count({ where: { status: false },});
+
+            const whereOptions = { status: false, user_id: req.user.user_id }
+
+            const totalCount = await req.db.announcement.count({ where: whereOptions });
 
             let posts = await req.db.announcement.findAll({
                 order: [["createdAt", "DESC"]],
-                where: { status: false, user_id: req.user.user_id },
+                where: whereOptions,
                 raw: true,
                 limit: p_page,
                 offset: p_page * (c_page - 1),

@@ -9,10 +9,12 @@ const {
   deleteAnnouncement,
   getAllUsers,
   deleteUser,
+  getUserPosts,
   recAnnouncement,
   getChat,
   getAds,
   postAds,
+  getStat,
 } = require("../controllers/admin/admin-controller");
 
 const adminMiddleware = require("../middlewares/admin-middleware");
@@ -37,6 +39,9 @@ router.get("/announcements/rec/:announcement_id", recAnnouncement);
 
 router.get("/users", getAllUsers);
 router.get("/users/delete/:user_id", deleteUser);
+router.get("/users/posts/:user_id", getUserPosts);
+
+// router.get("/stat", getStat);
 
 router.get("/chat", getChat);
 
