@@ -157,12 +157,10 @@ module.exports = async function () {
     //   confirm: true,
     // });
 
-
-
     await sequelize.sync({ force: false });
     // await sequelize.sync({ alter: true });
     return db;
   } catch (e) {
-    console.log(e);
+    console.log(e + "");
   }
 };

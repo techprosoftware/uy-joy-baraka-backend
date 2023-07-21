@@ -121,6 +121,7 @@ module.exports = class Admin {
         raw: true,
         limit: p_page,
         offset: p_page * (c_page - 1),
+        order: [["createdAt", "ASC"]],
       });
 
       res.render("admin/pending", {
@@ -165,6 +166,7 @@ module.exports = class Admin {
         raw: true,
         limit: p_page,
         offset: p_page * (c_page - 1),
+        order: [["createdAt", "ASC"]],
       });
 
       res.render("admin/pending", {
@@ -246,6 +248,7 @@ module.exports = class Admin {
         raw: true,
         limit: p_page,
         offset: p_page * (c_page - 1),
+        order: [["createdAt", "ASC"]],
       });
 
       res.render("admin/announcements", {
@@ -287,6 +290,7 @@ module.exports = class Admin {
         raw: true,
         limit: p_page,
         offset: p_page * (c_page - 1),
+        order: [["createdAt", "ASC"]],
       });
 
       res.render("admin/pending", {

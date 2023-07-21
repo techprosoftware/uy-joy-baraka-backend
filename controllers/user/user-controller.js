@@ -10,13 +10,18 @@ const {generateToken} = require("../../modules/jwt");
 module.exports = class User {
   static async editFullName(req, res) {
     try {
-      const { firstName, lastName } =
+      const { full_name } =
         await editFullNameValidation.validateAsync(req.body);
-      const { users } = req.db;
+      const { users, announcement } = req.db;
 
       await users.update(
-        { full_name: firstName + " " + lastName },
+        { full_name },
         { where: { user_id: req.user.user_id } }
+      );
+
+      await announcement.update(
+        { full_name },
+        { where: { user_id: req.user.user_id } },
       );
 
       res.status(200).json({

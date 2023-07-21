@@ -8,7 +8,18 @@ const uuidValidation = require("../../validations/uuid-validation");
 module.exports = class Announcement {
     static async announcementCreate(req, res) {
         try {
-            let { city, district, address, type, title, description, price, price_type, phone } = await announcementValidation.validateAsync(req.body);
+            let {
+                city,
+                district,
+                address,
+                type,
+                title,
+                description,
+                price,
+                price_type,
+                phone } = await announcementValidation.validateAsync(req.body);
+
+            // console.log(req.user);
 
             const { announcement } = req.db;
 
@@ -45,6 +56,8 @@ module.exports = class Announcement {
                 thumb: images,
                 price_type,
                 phone,
+                full_name: req.user.full_name,
+                avatar: req.user.avatar,
             });
  
             res.status(201).json({

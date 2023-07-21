@@ -32,7 +32,7 @@ module.exports = class Models {
       avatar: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
-        defaultValue: "default.png",
+        defaultValue: "/images/users/default.png",
       },
       password: {
         type: Sequelize.DataTypes.STRING,
@@ -181,6 +181,14 @@ module.exports = class Models {
       rec: {
         type: Sequelize.DataTypes.BOOLEAN,
         defaultValue: false,
+      },
+      full_name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+      },
+      avatar: {
+        type: Sequelize.DataTypes.STRING,
+        defaultValue: "/images/users/default.png",
       },
     });
   }

@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const paginationValidation = require("../../validations/pagination-validation");
 const searchValidation = require("../../validations/search-validation");
 const slugValidation = require("../../validations/slug-validation");
+const uuidValidation = require("../../validations/uuid-validation");
 
 module.exports = class Home {
   static async HomeGET(req, res) {
@@ -14,58 +15,28 @@ module.exports = class Home {
         c_page = 1;
       }
 
+      const whereOptions = {
+        confirm: true,
+        status: true,
+        [Op.or]: [
+          { rec: true },
+          { rec: { [Op.is]: false } }, // rec: false bo'lgan postlarni ham qabul qiladi
+        ],
+      };
+
       const [totalCount, posts] = await Promise.all([
         announcement.count({ where: { confirm: true, status: true } }),
         announcement.findAll({
-          where: {
-            confirm: true,
-            status: true,
-            [Op.or]: [
-              { rec: true },
-              { rec: { [Op.is]: false } }, // rec: false bo'lgan postlarni ham qabul qiladi
-            ],
-          },
-          attributes: [
-            "announcement_id",
-            "slug",
-            "title",
-            "thumb",
-            "city",
-            "district",
-            "address",
-            "type",
-            "description",
-            "price",
-            "price_type",
-            "phone",
-            "viewCount",
-            "likeCount",
-          ],
+          where: whereOptions,
           order: [
             ["viewCount", "DESC"],
             ["likeCount", "DESC"],
           ],
           limit: 10,
           offset: 10 * (c_page - 1),
+          raw: true,
         }),
       ]);
-
-      // const totalCount = await announcement.count({ where: { confirm: true, status: true }});
-      //
-      // // Fetching 3 most viewed, liked posts
-      // const posts = await announcement.findAll({
-      //     where: {
-      //         confirm: true,
-      //         status: true,
-      //         [Op.or]: [
-      //             { rec: true },
-      //             { rec: { [Op.is]: false } } // rec: false bo'lgan postlarni ham qabul qiladi
-      //         ],
-      //     },
-      //     order: [['viewCount', 'DESC'], ['likeCount', 'DESC']],
-      //     limit: 10,
-      //     offset: 10 * (c_page - 1),
-      // });
 
       res.status(200).json({
         ok: true,
@@ -95,6 +66,10 @@ module.exports = class Home {
       let whereCondition = {
         confirm: true,
         status: true,
+        [Op.or]: [
+          { rec: true },
+          { rec: { [Op.is]: false } }, // rec: false bo'lgan postlarni ham qabul qiladi
+        ],
       };
 
       if (type) whereCondition.type = type;
@@ -139,80 +114,15 @@ module.exports = class Home {
         announcement.count({ where: whereCondition }),
         announcement.findAll({
           where: whereCondition,
-          attributes: [
-            "announcement_id",
-            "slug",
-            "title",
-            "thumb",
-            "city",
-            "district",
-            "address",
-            "type",
-            "description",
-            "price",
-            "price_type",
-            "phone",
-            "viewCount",
-            "likeCount",
-          ],
           order: [
             ["viewCount", "DESC"],
             ["likeCount", "DESC"],
           ],
           limit: 10,
           offset: 10 * (c_page - 1),
+          raw: true,
         }),
       ]);
-
-      // const totalCount = await announcement.count({ where: { confirm: true, status: true }});
-      //
-      // let whereCondition = {
-      //     confirm: true,
-      //     status: true,
-      // };
-      //
-      // if (type) whereCondition.type = type;
-      //
-      // if (city) whereCondition.city = city;
-      //
-      // if (price_type) whereCondition.price_type = price_type;
-      //
-      // if (search) {
-      //     whereCondition = {
-      //         ...whereCondition,
-      //         [Op.or]: [
-      //             {
-      //                 title: {
-      //                     [Op.like]: `%${search}%`,
-      //                 },
-      //             },
-      //             {
-      //                 city: {
-      //                     [Op.like]: `%${search}%`,
-      //                 },
-      //             },
-      //             {
-      //                 district: {
-      //                     [Op.like]: `%${search}%`,
-      //                 },
-      //             },
-      //             {
-      //                 address: {
-      //                     [Op.like]: `%${search}%`,
-      //                 },
-      //             },
-      //         ],
-      //     };
-      // }
-      //
-      // // Fetching 3 most viewed, liked posts
-      // const combinedPosts = await announcement.findAll({
-      //     where: whereCondition,
-      //     attributes: ["announcement_id", "city", "title", "price", "thumb", "slug", "viewCount", ],
-      //     order: [['viewCount', 'DESC'], ['likeCount', 'DESC']],
-      //     limit: 10,
-      //     offset: 10 * (c_page - 1),
-      // });
 
       // Sending the response
       res.status(200).json({
@@ -237,40 +147,56 @@ module.exports = class Home {
 
       const item = await announcement.findOne({
         where: { slug },
-        attributes: [
-          "announcement_id",
-          "slug",
-          "title",
-          "thumb",
-          "city",
-          "district",
-          "address",
-          "type",
-          "description",
-          "price",
-          "price_type",
-          "phone",
-          "viewCount",
-          "likeCount",
-          "user_id",
-        ],
+        raw: true,
       });
 
       if (!item) {
         throw new Error("E'lon topilmadi");
       }
 
-      let user = await item.getUser({
-        attributes: ["user_id", "avatar", "full_name", "phone"],
-      });
-
       item.viewCount += 1;
-      await item.save();
+      await announcement.update(
+        { viewCount: item.viewCount },
+        { where: { slug } }
+      );
 
       res.status(200).json({
         ok: true,
-        post: item.dataValues,
-        user,
+        post: item,
+      });
+    } catch (e) {
+      res.status(400).json({
+        ok: false,
+        message: e.toString().replace("Error:", "").trim(),
+      });
+    }
+  }
+
+  static async viewCounter(req, res) {
+    try {
+      const { announcement_id } = await uuidValidation.validateAsync(
+        req.params
+      );
+      const { announcement } = req.db;
+
+      const item = await announcement.findOne({
+        where: { announcement_id },
+        raw: true,
+      });
+
+      if (!item) {
+        throw new Error("E'lon topilmadi");
+      }
+
+      item.viewCount += 1;
+      await announcement.update(
+        { viewCount: item.viewCount },
+        { where: { announcement_id } }
+      );
+
+      res.status(200).json({
+        ok: true,
+        message: "View count +1",
       });
     } catch (e) {
       res.status(400).json({

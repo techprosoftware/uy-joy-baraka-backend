@@ -24,14 +24,14 @@
                                 <!-- Card-->
                                 <div class="card shadow-sm border-0 rounded mb-3">
                                     <div class="card-body p-0" >
-                                        <img src="<%= item.thumb[0] %>" alt="" class="w-100 card-img-top">
+                                        <img src="<%= item.thumb[0] %>" alt="" class="w-100 card-img-top" style="height: 190px ">
                                         <div class="p-4">
-                                            <h5 class="mb-0"><%= item.title %></h5>
-                                            <p class="small text-muted"><%= item.city %> <%= item.district %></p>
+                                            <h5 class="mb-0"><%= item.title.substring(0, 50) %>...</h5>
+                                            <p class="small text-muted"><%= item.city %></p>
                                             <% var dateObj = new Date(item.createdAt); %>
-                                            <p class="small text-muted"><%= dateObj.getDate() %>-<%= dateObj.getMonth() + 1 %>-<%= dateObj.getFullYear() %>  </p>
+                                            <p class="small text-muted"><%= dateObj.getDate() %>/<%= dateObj.getMonth() + 1 %>/<%= dateObj.getFullYear() %> <% if (item.rec) { %><i class="fa-solid fa-star" style="color: #fbff00;"></i><% } %> </p>
                                             <div class="card-footer d-flex align-items-center justify-content-between">
-                                                <a class="small stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#post-<%=item.slug%>">Barchasini ko'rish</a>
+                                                <a class="small stretched-link" type="button" data-bs-toggle="modal" data-bs-target="#post-<%=item.slug%>" >Barchasini ko'rish</a>
                                                 <div class="small"><i class="fas fa-angle-right"></i></div>
                                             </div>
                                         </div>
@@ -80,13 +80,13 @@
                                                     <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
                                                         <div class="carousel-indicators">
                                                             <% for(let num in item.thumb) { %>
-                                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=num%>" class="active" aria-current="true" aria-label="Slide 1"></button>
+                                                            <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="<%=num%>" <% if (num == 0) { %> class="active" <% } %>  aria-current="true" aria-label="Slide 1"></button>
                                                             <% } %>
                                                         </div>
                                                         <div class="carousel-inner">
-                                                            <% for(let img of item.thumb) { %>
-                                                                <div class="carousel-item active">
-                                                                    <img src="<%= img %>" class="d-block w-100" alt="...">
+                                                            <% for (let i = 0; i < item.thumb.length; i++) { %>
+                                                                <div class="carousel-item<% if (i === 0) { %> active<% } %>">
+                                                                    <img src="<%= item.thumb[i] %>" class="d-block w-100" alt="img">
                                                                 </div>
                                                             <% } %>
                                                         </div>
@@ -101,10 +101,15 @@
                                                     </div>
                                                 </div>
                                                 <div class="col-lg-6 col-md-6 mb-4 mb-lg-0">
-                                                    <h4 class="mb-2">Sarlavha: <%= item.title %></h4>
+                                                    <div class="d-flex align-items-center mb-3">
+                                                        <img src="<%=item.avatar%>" alt="img" class="avatar rounded-circle me-4" width="40" height="auto">
+                                                        <h5 class=""><%= item.full_name %></h5>
+                                                    </div>
+                                                    <hr>
+                                                    <p class="small text-muted">Sarlavha: <%= item.title %></p>
                                                     <p class="small text-muted">Shaxar: <%= item.city %> <%= item.district %></p>
                                                     <p class="small text-muted">Manzil: <%= item.address %></p>
-                                                    <p class="small text-muted">Turi: <%= item.type %></p>
+                                                    <p class="small text-muted">Turi: <% if (item.type === "rent") { %> Ijara <% } else { %> Sotuv <% } %></p>
                                                     <p class="small text-muted">Ma'lumot: <%= item.description %></p>
                                                     <h5>Narx: <%= item.price %> so'm</h5>
                                                     <% var dateObj = new Date(item.createdAt); %>
