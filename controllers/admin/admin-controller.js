@@ -191,7 +191,6 @@ module.exports = class Admin {
       let { p_page, c_page } = req.query;
       if (!(p_page || c_page)) {
         p_page = 8;
-
         c_page = 1;
       }
       if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
@@ -457,13 +456,13 @@ module.exports = class Admin {
 
       let { p_page, c_page } = req.query;
       if (!(p_page || c_page)) {
-        p_page = 10;
+        p_page = 8;
         c_page = 1;
       }
       if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
         throw new Error("invalid c_page and p_page options");
       }
-      const user = await req.db.users.findOne({ where: { user_id }, raw: true, attributes: ["full_name"] });
+      const user = await req.db.users.findOne({ where: { user_id }, raw: true });
 
       const totalCount = await req.db.announcement.count({
         where: { user_id },

@@ -77,12 +77,11 @@ module.exports = class Announcement {
         try {
             let { p_page, c_page } = await paginationValidation.validateAsync(req.query);
 
-            if (!(p_page || c_page)) {
-                p_page = 10;
-                c_page = 1;
-            }
-            if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
-                throw new Error("invalid c_page and p_page options");
+            if (!c_page) c_page = 1;
+            if (!p_page) p_page = 12;
+
+            if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
+                throw new Error("Invalid c_page and p_page options, p_page max size 50");
             }
 
             const whereOptions = {
@@ -119,12 +118,11 @@ module.exports = class Announcement {
         try {
             let { p_page, c_page } = await paginationValidation.validateAsync(req.query);
 
-            if (!(p_page || c_page)) {
-                p_page = 10;
-                c_page = 1;
-            }
-            if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
-                throw new Error("invalid c_page and p_page options");
+            if (!c_page) c_page = 1;
+            if (!p_page) p_page = 12;
+
+            if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
+                throw new Error("Invalid c_page and p_page options, p_page max size 50");
             }
 
             const whereOptions = { status: false, user_id: req.user.user_id }
@@ -321,12 +319,11 @@ module.exports = class Announcement {
         try {
             let { p_page, c_page } = await paginationValidation.validateAsync(req.query);
 
-            if (!(p_page || c_page)) {
-                p_page = 10;
-                c_page = 1;
-            }
-            if (isNaN(Number(p_page)) || isNaN(Number(c_page))) {
-                throw new Error("invalid c_page and p_page options");
+            if (!c_page) c_page = 1;
+            if (!p_page) p_page = 12;
+
+            if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
+                throw new Error("Invalid c_page and p_page options, p_page max size 50");
             }
 
             const totalCount = await req.db.likes.count({ where: { user_id: req.user.user_id },});

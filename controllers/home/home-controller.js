@@ -8,11 +8,14 @@ const uuidValidation = require("../../validations/uuid-validation");
 module.exports = class Home {
   static async HomeGET(req, res) {
     try {
-      let { c_page } = await paginationValidation.validateAsync(req.query);
+      let { c_page, p_page } = await paginationValidation.validateAsync(req.query);
       const { announcement } = req.db;
 
-      if (!c_page) {
-        c_page = 1;
+      if (!c_page) c_page = 1;
+      if (!p_page) p_page = 12;
+
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
+        throw new Error("Invalid c_page and p_page options, p_page max size 50");
       }
 
       const whereOptions = {
@@ -32,8 +35,8 @@ module.exports = class Home {
             ["viewCount", "DESC"],
             ["likeCount", "DESC"],
           ],
-          limit: 10,
-          offset: 10 * (c_page - 1),
+          limit: p_page,
+          offset: p_page * (c_page - 1),
           raw: true,
         }),
       ]);
@@ -43,6 +46,7 @@ module.exports = class Home {
         message: "UY JOY BARAKA",
         posts,
         c_page,
+        p_page,
         totalCount,
       });
     } catch (e) {
@@ -55,12 +59,15 @@ module.exports = class Home {
 
   static async SearchGET(req, res) {
     try {
-      let { type, city, price_type, c_page, search } =
+      let { type, city, price_type, c_page, p_page, search } =
         await searchValidation.validateAsync(req.query);
       const { announcement } = req.db;
 
-      if (!c_page) {
-        c_page = 1;
+      if (!c_page) c_page = 1;
+      if (!p_page) p_page = 12;
+
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
+        throw new Error("Invalid c_page and p_page options, p_page max size 50");
       }
 
       let whereCondition = {
@@ -118,8 +125,8 @@ module.exports = class Home {
             ["viewCount", "DESC"],
             ["likeCount", "DESC"],
           ],
-          limit: 10,
-          offset: 10 * (c_page - 1),
+          limit: p_page,
+          offset: p_page * (c_page - 1),
           raw: true,
         }),
       ]);
@@ -130,6 +137,7 @@ module.exports = class Home {
         message: "UY JOY BARAKA",
         posts: combinedPosts,
         c_page,
+        p_page,
         totalCount,
       });
     } catch (e) {
