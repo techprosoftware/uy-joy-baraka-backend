@@ -124,7 +124,7 @@ module.exports = class Chat {
                 });
             }
 
-            console.log(chatsWithUsers);
+            // console.log(chatsWithUsers);
 
             res.status(200).json({
                 ok: true,
