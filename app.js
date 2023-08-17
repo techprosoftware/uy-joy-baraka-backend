@@ -40,8 +40,8 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // database middleware
-// app.use(async (req, res, next) => {
-//   req.db = await db();
+app.use(async (req, res, next) => {
+  req.db = await db();
 //   let hash = await generateHash("password123")
 //   await req.db.users.create({
 //     full_name: "Admin",
@@ -50,8 +50,8 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 //     password: hash,
 //     confirm: true,
 //   });
-//   next();
-// });
+  next();
+});
 
 // routes
 app.get("/", (req, res) => {
