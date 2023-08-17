@@ -90,15 +90,20 @@ module.exports = class Chat {
             const { chats, users, announcement } = req.db;
 
             const chatsWithUsers = await chats.findAll({
-                attributes: ["chat_id", "receiver_id", "announcement_id", "createdAt"],
-                where: { user_id: req.user.user_id },
+                attributes: ["chat_id", "user_id", "announcement_id", "createdAt"],
+                where: {
+                    [Op.or]: [
+                        { user_id: req.user.user_id },
+                        { receiver_id: req.user.user_id },
+                    ],
+                },
                 order: [["updatedAt", "DESC"]],
                 raw: true,
             });
 
             for (let chat of chatsWithUsers) {
                 chat.user = await users.findOne({
-                    where: { user_id: chat.receiver_id },
+                    where: { user_id: chat.user_id },
                     attributes: ["avatar", "full_name", "user_id"],
                     raw: true,
                 });
