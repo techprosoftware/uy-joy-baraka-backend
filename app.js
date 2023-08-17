@@ -11,6 +11,7 @@ const { NODE_ENV, URL } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
+const { generateHash } = require("./modules/bcrypt")
 
 const app = express();
 
@@ -39,18 +40,18 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDoc));
 
 // database middleware
-app.use(async (req, res, next) => {
-  req.db = await db();
-  // let hash = await generateHash("password123")
-  // await req.db.users.create({
-  //   full_name: "Admin",
-  //   phone: "998905210501",
-  //   role: "admin",
-  //   password: hash,
-  //   confirm: true,
-  // });
-  next();
-});
+// app.use(async (req, res, next) => {
+//   req.db = await db();
+//   let hash = await generateHash("password123")
+//   await req.db.users.create({
+//     full_name: "Admin",
+//     phone: "998905210501",
+//     role: "admin",
+//     password: hash,
+//     confirm: true,
+//   });
+//   next();
+// });
 
 // routes
 app.get("/", (req, res) => {
