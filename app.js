@@ -26,7 +26,7 @@ app.use(cookieParser());
 
 if (NODE_ENV === "production") {
   app.use(limiter);
-  app.use(cors({ origin: URL }));
+  app.use(cors({ origin: [`https://${URL}`, `www.${URL}`] }));
   app.use(logger("common"));
 } else {
   app.use(cors({ origin: "*" }));
