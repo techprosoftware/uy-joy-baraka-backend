@@ -10,7 +10,7 @@ const signUpValidation = require("../../validations/signup-validation");
 const codeValidation = require("../../validations/code-validation");
 const loginValidation = require("../../validations/login-validation");
 
-const sendSms = require("../../modules/sms");
+const { sendSms } = require("../../modules/sms");
 const { NODE_ENV } = require("../../config");
 
 module.exports = class Login {
