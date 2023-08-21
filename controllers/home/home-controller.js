@@ -32,7 +32,7 @@ module.exports = class Home {
         announcement.findAll({
           where: whereOptions,
           order: [
-            ["updatedAt", "DESC"],
+            ["createdAt", "DESC"],
             ["likeCount", "DESC"],
           ],
           limit: p_page,
