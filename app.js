@@ -7,7 +7,7 @@ const cookieParser = require("cookie-parser");
 const swaggerUi = require("swagger-ui-express");
 
 const db = require("./modules/postgres");
-const { NODE_ENV, URL } = require("./config");
+const { NODE_ENV, URL, PORT } = require("./config");
 const limiter = require("./modules/rate-limit");
 const swaggerDoc = require("./docs/swagger.json");
 const compression = require("./modules/compression");
@@ -83,5 +83,7 @@ app.use((err, req, res, next) => {
     message: err + "",
   });
 });
+
+app.listen(PORT, () => console.log('server running ', PORT))
 
 module.exports = app;
