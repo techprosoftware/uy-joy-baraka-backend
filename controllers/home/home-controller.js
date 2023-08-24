@@ -66,8 +66,8 @@ module.exports = class Home {
       if (!c_page) c_page = 1;
       if (!p_page) p_page = 12;
 
-      if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 50) {
-        throw new Error("Invalid c_page and p_page options, p_page max size 50");
+      if (isNaN(Number(p_page)) || isNaN(Number(c_page)) || p_page > 500) {
+        throw new Error("Invalid c_page and p_page options, p_page max size 500");
       }
 
       let whereCondition = {
