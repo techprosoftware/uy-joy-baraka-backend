@@ -25,8 +25,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 if (NODE_ENV === "production") {
-  app.use(limiter);
-  app.use(cors({ origin: [`https://${URL}`, `https://www.${URL}`] }));
+  //app.use(limiter);
+  app.use(cors({origin: "*"}));
+  //app.use(cors({ origin: [`https://${URL}`, `https://www.${URL}`] }));
   app.use(logger("common"));
 } else {
   app.use(cors({ origin: "*" }));
